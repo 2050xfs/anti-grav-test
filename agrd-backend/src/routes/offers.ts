@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { Prisma } from '@prisma/client';
 import prisma from '../utils/prisma';
 import { requireAuth, loadUser, requireWorkspaceAccess } from '../middleware/auth';
 
@@ -156,6 +157,108 @@ router.get(
     } catch (error) {
       console.error('Get offer error:', error);
       res.status(500).json({ error: 'Failed to retrieve offer' });
+    }
+  }
+);
+
+/**
+ * PATCH /api/offers/:id
+ * Update an offer
+ */
+router.patch(
+  '/:id',
+  requireAuth,
+  loadUser,
+  requireWorkspaceAccess,
+  async (req: Request, res: Response) => {
+    try {
+      const workspaceId = req.workspaceId!;
+      const offerId = req.params.id as string;
+
+      const existingOffer = await prisma.offer.findFirst({
+        where: {
+          id: offerId,
+          workspaceId,
+        },
+      });
+
+      if (!existingOffer) {
+        res.status(404).json({ error: 'Offer not found' });
+        return;
+      }
+
+      const {
+        name,
+        description,
+        offerType,
+        valueStack,
+        pricingTiers,
+        guaranteeType,
+        deliveryMechanism,
+        status,
+      } = req.body;
+
+      const updateData: Prisma.OfferUpdateInput = {};
+
+      if (name !== undefined) {
+        if (typeof name !== 'string' || name.trim().length === 0) {
+          res.status(400).json({ error: 'Name must be a non-empty string' });
+          return;
+        }
+        updateData.name = name.trim();
+      }
+
+      if (description !== undefined) {
+        updateData.description = description || null;
+      }
+
+      if (offerType !== undefined) {
+        const validOfferTypes = ['LEAD_MAGNET', 'CORE_PRODUCT', 'UPSELL', 'DOWNSELL'];
+        if (!validOfferTypes.includes(offerType)) {
+          res.status(400).json({
+            error: `Invalid offer type. Must be one of: ${validOfferTypes.join(', ')}`,
+          });
+          return;
+        }
+        updateData.offerType = offerType;
+      }
+
+      if (status !== undefined) {
+        const validStatuses = ['DRAFT', 'ACTIVE', 'PAUSED', 'ARCHIVED'];
+        if (!validStatuses.includes(status)) {
+          res.status(400).json({
+            error: `Invalid status. Must be one of: ${validStatuses.join(', ')}`,
+          });
+          return;
+        }
+        updateData.status = status;
+      }
+
+      if (valueStack !== undefined) {
+        updateData.valueStack = valueStack;
+      }
+
+      if (pricingTiers !== undefined) {
+        updateData.pricingTiers = pricingTiers;
+      }
+
+      if (guaranteeType !== undefined) {
+        updateData.guaranteeType = guaranteeType || null;
+      }
+
+      if (deliveryMechanism !== undefined) {
+        updateData.deliveryMechanism = deliveryMechanism || null;
+      }
+
+      const updatedOffer = await prisma.offer.update({
+        where: { id: offerId },
+        data: updateData,
+      });
+
+      res.json(updatedOffer);
+    } catch (error) {
+      console.error('Update offer error:', error);
+      res.status(500).json({ error: 'Failed to update offer' });
     }
   }
 );
