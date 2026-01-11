@@ -65,4 +65,65 @@ router.get(
   }
 );
 
+/**
+ * POST /api/offers
+ * Create a new offer
+ */
+router.post(
+  '/',
+  requireAuth,
+  loadUser,
+  requireWorkspaceAccess,
+  async (req: Request, res: Response) => {
+    try {
+      const workspaceId = req.workspaceId!;
+      const {
+        name,
+        offerType,
+        description,
+        valueStack,
+        pricingTiers,
+        guaranteeType,
+        deliveryMechanism,
+      } = req.body;
+
+      if (!name || typeof name !== 'string' || name.trim().length === 0) {
+        res.status(400).json({ error: 'Name is required' });
+        return;
+      }
+
+      if (!offerType) {
+        res.status(400).json({ error: 'Offer type is required' });
+        return;
+      }
+
+      const validOfferTypes = ['LEAD_MAGNET', 'CORE_PRODUCT', 'UPSELL', 'DOWNSELL'];
+      if (!validOfferTypes.includes(offerType)) {
+        res.status(400).json({
+          error: `Invalid offer type. Must be one of: ${validOfferTypes.join(', ')}`,
+        });
+        return;
+      }
+
+      const offer = await prisma.offer.create({
+        data: {
+          workspaceId,
+          name: name.trim(),
+          offerType,
+          description: description || null,
+          valueStack: valueStack || null,
+          pricingTiers: pricingTiers || null,
+          guaranteeType: guaranteeType || null,
+          deliveryMechanism: deliveryMechanism || null,
+        },
+      });
+
+      res.status(201).json(offer);
+    } catch (error) {
+      console.error('Create offer error:', error);
+      res.status(500).json({ error: 'Failed to create offer' });
+    }
+  }
+);
+
 export default router;
