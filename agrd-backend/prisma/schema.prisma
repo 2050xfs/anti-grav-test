@@ -1,0 +1,391 @@
+// AGRD Prisma Schema
+// Multi-user workspace architecture with 8 core entities
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================================
+// USER & WORKSPACE MANAGEMENT
+// ============================================================================
+
+model User {
+  id            String     @id @default(uuid())
+  email         String     @unique
+  passwordHash  String
+  name          String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  // Relations
+  workspaces    UserWorkspace[]
+
+  @@map("users")
+}
+
+model Workspace {
+  id          String    @id @default(uuid())
+  name        String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  users       UserWorkspace[]
+  contacts    Contact[]
+  campaigns   Campaign[]
+  offers      Offer[]
+  assets      Asset[]
+  decisions   Decision[]
+  channels    Channel[]
+  conversations Conversation[]
+  insights    Insight[]
+
+  @@map("workspaces")
+}
+
+model UserWorkspace {
+  id          String   @id @default(uuid())
+  userId      String
+  workspaceId String
+  role        String   @default("member") // owner, admin, member
+  createdAt   DateTime @default(now())
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+  @@map("user_workspaces")
+}
+
+// ============================================================================
+// CORE ENTITIES (8 from AGRD Data Model)
+// ============================================================================
+
+// 1. CONTACT - People tracked through lifecycle stages
+model Contact {
+  id                String              @id @default(uuid())
+  workspaceId       String
+  email             String
+  firstName         String?
+  lastName          String?
+  phone             String?
+  lifecycleStage    LifecycleStage      @default(LEAD)
+  qualificationScore Int?               // PMAU score
+  ltv               Float?              @default(0)
+  cac               Float?              @default(0)
+  engagementScore   Int?
+  lastContactedAt   DateTime?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  metadata          Json?               // Flexible storage for custom fields
+
+  // Relations
+  workspace         Workspace           @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  conversations     Conversation[]
+  campaignContacts  CampaignContact[]
+
+  @@index([workspaceId, lifecycleStage])
+  @@index([workspaceId, email])
+  @@map("contacts")
+}
+
+enum LifecycleStage {
+  LEAD
+  NEW_CUSTOMER
+  ACTIVE
+  AT_RISK
+  DORMANT
+  CHURNED
+}
+
+// 2. CAMPAIGN - Marketing initiatives through Core Four channels
+model Campaign {
+  id                String          @id @default(uuid())
+  workspaceId       String
+  channelId         String
+  offerId           String?
+  name              String
+  status            CampaignStatus  @default(DRAFT)
+  targetAudience    Json?           // Criteria for targeting
+  budget            Float?
+  spent             Float           @default(0)
+  impressions       Int             @default(0)
+  clicks            Int             @default(0)
+  conversions       Int             @default(0)
+  revenue           Float           @default(0)
+  startDate         DateTime?
+  endDate           DateTime?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  metadata          Json?
+
+  // Relations
+  workspace         Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  channel           Channel         @relation(fields: [channelId], references: [id])
+  offer             Offer?          @relation(fields: [offerId], references: [id])
+  assets            Asset[]
+  campaignContacts  CampaignContact[]
+  insights          Insight[]
+
+  @@index([workspaceId, channelId])
+  @@index([workspaceId, status])
+  @@map("campaigns")
+}
+
+enum CampaignStatus {
+  DRAFT
+  PENDING
+  ACTIVE
+  PAUSED
+  COMPLETED
+  ARCHIVED
+}
+
+// Join table for Campaign <-> Contact (many-to-many)
+model CampaignContact {
+  id          String   @id @default(uuid())
+  campaignId  String
+  contactId   String
+  createdAt   DateTime @default(now())
+
+  campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  contact     Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, contactId])
+  @@map("campaign_contacts")
+}
+
+// 3. OFFER - Lead magnets and products with value stacks
+model Offer {
+  id                String          @id @default(uuid())
+  workspaceId       String
+  name              String
+  description       String?
+  offerType         OfferType       @default(LEAD_MAGNET)
+  valueStack        Json?           // Array of value items (bonuses, workbook, OTO)
+  pricingTiers      Json?           // Array of pricing options
+  guaranteeType     String?         // "30-day money back", etc.
+  deliveryMechanism String?         // "Digital download", "Email course", etc.
+  status            OfferStatus     @default(DRAFT)
+  conversionRate    Float?          @default(0)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  metadata          Json?
+
+  // Relations
+  workspace         Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  campaigns         Campaign[]
+
+  @@index([workspaceId, offerType])
+  @@map("offers")
+}
+
+enum OfferType {
+  LEAD_MAGNET
+  CORE_PRODUCT
+  UPSELL
+  DOWNSELL
+}
+
+enum OfferStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+
+// 4. ASSET - Generated content (emails, ads, posts, sequences)
+model Asset {
+  id              String        @id @default(uuid())
+  workspaceId     String
+  campaignId      String
+  assetType       AssetType
+  name            String
+  content         String?       @db.Text
+  status          AssetStatus   @default(PENDING)
+  version         Int           @default(1)
+  impressions     Int           @default(0)
+  clicks          Int           @default(0)
+  conversions     Int           @default(0)
+  performanceScore Float?       @default(0)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  metadata        Json?
+
+  // Relations
+  workspace       Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  campaign        Campaign      @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, campaignId])
+  @@index([workspaceId, assetType])
+  @@map("assets")
+}
+
+enum AssetType {
+  EMAIL
+  AD_COPY
+  LANDING_PAGE
+  SOCIAL_POST
+  OUTREACH_SEQUENCE
+  VIDEO_SCRIPT
+}
+
+enum AssetStatus {
+  PENDING
+  GENERATING
+  COMPLETED
+  ERROR
+  ARCHIVED
+}
+
+// 5. DECISION - Strategic choices made by Strategy Brain
+model Decision {
+  id              String        @id @default(uuid())
+  workspaceId     String
+  decisionType    DecisionType
+  title           String
+  reasoning       String        @db.Text
+  contextData     Json?         // Data used to make decision
+  expectedOutcome String?
+  actualOutcome   String?
+  status          DecisionStatus @default(PENDING)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  metadata        Json?
+
+  // Relations
+  workspace       Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, decisionType])
+  @@index([workspaceId, status])
+  @@map("decisions")
+}
+
+enum DecisionType {
+  BUDGET_ALLOCATION
+  CHANNEL_SCALING
+  OFFER_TESTING
+  CAMPAIGN_PAUSE
+  CAMPAIGN_SCALE
+  CAMPAIGN_OPTIMIZE
+}
+
+enum DecisionStatus {
+  PENDING
+  APPROVED
+  EXECUTED
+  COMPLETED
+  FAILED
+}
+
+// 6. CHANNEL - Core Four methods (Warm, Cold, Content, Paid Ads)
+model Channel {
+  id                  String       @id @default(uuid())
+  workspaceId         String
+  channelType         ChannelType  @unique
+  name                String
+  allocatedBudget     Float        @default(0)
+  spentBudget         Float        @default(0)
+  ltgpCacRatio        Float?       @default(0)
+  constraintDetected  Boolean      @default(false)
+  constraintDetails   String?
+  totalCampaigns      Int          @default(0)
+  totalConversions    Int          @default(0)
+  totalRevenue        Float        @default(0)
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+  metadata            Json?
+
+  // Relations
+  workspace           Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  campaigns           Campaign[]
+
+  @@index([workspaceId, channelType])
+  @@map("channels")
+}
+
+enum ChannelType {
+  WARM_OUTREACH
+  COLD_OUTREACH
+  CONTENT
+  PAID_ADS
+}
+
+// 7. CONVERSATION - Interactions with qualification and routing
+model Conversation {
+  id                  String              @id @default(uuid())
+  workspaceId         String
+  contactId           String
+  status              ConversationStatus  @default(ACTIVE)
+  qualificationScore  Int?                // PMAU: Problem, Money, Authority, Urgency
+  problemScore        Int?
+  moneyScore          Int?
+  authorityScore      Int?
+  urgencyScore        Int?
+  routingDecision     RoutingDecision?    @default(AUTOMATED_NURTURE)
+  history             Json?               // Array of messages
+  objections          Json?               // Array of objection/response pairs
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  metadata            Json?
+
+  // Relations
+  workspace           Workspace           @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  contact             Contact             @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  insights            Insight[]
+
+  @@index([workspaceId, contactId])
+  @@index([workspaceId, status])
+  @@map("conversations")
+}
+
+enum ConversationStatus {
+  ACTIVE
+  QUALIFIED
+  ESCALATED
+  CONVERTED
+  CLOSED
+}
+
+enum RoutingDecision {
+  HUMAN_ESCALATION
+  AUTOMATED_NURTURE
+}
+
+// 8. INSIGHT - Learned patterns from institutional memory
+model Insight {
+  id                String      @id @default(uuid())
+  workspaceId       String
+  insightType       InsightType
+  title             String
+  description       String      @db.Text
+  sourceType        String?     // "campaign", "conversation", etc.
+  sourceCampaignId  String?
+  sourceConversationId String?
+  pattern           Json?       // The discovered pattern data
+  effectiveness     Float?      // 0-100 score
+  timesApplied      Int         @default(0)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  metadata          Json?
+
+  // Relations
+  workspace         Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  sourceCampaign    Campaign?       @relation(fields: [sourceCampaignId], references: [id])
+  sourceConversation Conversation?  @relation(fields: [sourceConversationId], references: [id])
+
+  @@index([workspaceId, insightType])
+  @@map("insights")
+}
+
+enum InsightType {
+  OBJECTION_HANDLING
+  WINNING_MESSAGE
+  FAILED_EXPERIMENT
+  CHANNEL_PERFORMANCE
+  AUDIENCE_PATTERN
+}
