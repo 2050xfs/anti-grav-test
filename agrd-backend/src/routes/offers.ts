@@ -263,4 +263,42 @@ router.patch(
   }
 );
 
+/**
+ * DELETE /api/offers/:id
+ * Delete an offer
+ */
+router.delete(
+  '/:id',
+  requireAuth,
+  loadUser,
+  requireWorkspaceAccess,
+  async (req: Request, res: Response) => {
+    try {
+      const workspaceId = req.workspaceId!;
+      const offerId = req.params.id as string;
+
+      const existingOffer = await prisma.offer.findFirst({
+        where: {
+          id: offerId,
+          workspaceId,
+        },
+      });
+
+      if (!existingOffer) {
+        res.status(404).json({ error: 'Offer not found' });
+        return;
+      }
+
+      await prisma.offer.delete({
+        where: { id: offerId },
+      });
+
+      res.status(204).send();
+    } catch (error) {
+      console.error('Delete offer error:', error);
+      res.status(500).json({ error: 'Failed to delete offer' });
+    }
+  }
+);
+
 export default router;
