@@ -1,0 +1,510 @@
+{
+  "_meta": {
+    "models": {
+      "channels": "Each channel represents one of the Core Four distribution methods (Warm Outreach, Cold Outreach, Content, Paid Ads) that operates autonomously to generate leads. Channels track their allocated budget, performance metrics like LTGP:CAC ratio, and current operational status.",
+      "leadGetters": "Lead Getters are the four methods of leveraging others to get customers: Customer Referrals, Employees, Agencies, and Affiliates. These operate alongside the Core Four but are tracked separately with different metrics.",
+      "campaigns": "Each campaign is a specific marketing initiative running within a channel. Campaigns have their own budgets, target audiences, and performance tracking that feeds back into the channel's aggregate metrics.",
+      "decisions": "Decisions are autonomous choices made by the Strategy Brain, such as reallocating budget between channels, pausing underperformers, or scaling winners. Each decision includes the AI's reasoning and expected vs actual outcomes.",
+      "performanceHistory": "Time-series data showing how key metrics have changed over the last 30 days. Used to render performance charts showing trends in LTGP:CAC ratio, spend, and lead volume."
+    },
+    "relationships": [
+      "Each Campaign belongs to a Channel (via channelId)",
+      "Each Decision affects one or more Channels (via affectedChannelIds)",
+      "Each Decision may affect specific Campaigns (via affectedCampaignIds)",
+      "Performance History tracks aggregate metrics across all Channels over time",
+      "Lead Getters operate independently but are displayed alongside Core Four Channels"
+    ]
+  },
+  "channels": [
+    {
+      "id": "ch-warm-outreach",
+      "name": "Warm Outreach",
+      "type": "core-four",
+      "status": "active",
+      "description": "Mining CRM for relationship scores and generating 3-way introductions",
+      "metrics": {
+        "ltgpCacRatio": 8.2,
+        "spend": 4200,
+        "leads": 89,
+        "conversions": 12,
+        "conversionRate": 13.5
+      },
+      "budget": {
+        "allocated": 8000,
+        "remaining": 3800,
+        "utilizationPercent": 52.5
+      },
+      "activeCampaigns": 3,
+      "lastUpdated": "2024-01-08T14:23:00Z"
+    },
+    {
+      "id": "ch-cold-outreach",
+      "name": "Cold Outreach",
+      "type": "core-four",
+      "status": "optimizing",
+      "description": "Personalized sequences at 1,000+/day with 4-step proven patterns",
+      "metrics": {
+        "ltgpCacRatio": 5.8,
+        "spend": 12500,
+        "leads": 342,
+        "conversions": 28,
+        "conversionRate": 8.2
+      },
+      "budget": {
+        "allocated": 15000,
+        "remaining": 2500,
+        "utilizationPercent": 83.3
+      },
+      "activeCampaigns": 5,
+      "lastUpdated": "2024-01-08T14:23:00Z"
+    },
+    {
+      "id": "ch-content",
+      "name": "Content",
+      "type": "core-four",
+      "status": "active",
+      "description": "6 hook formulas, multi-platform posting, Give-Give-Give-Ask sequencing",
+      "metrics": {
+        "ltgpCacRatio": 12.4,
+        "spend": 3800,
+        "leads": 156,
+        "conversions": 22,
+        "conversionRate": 14.1
+      },
+      "budget": {
+        "allocated": 6000,
+        "remaining": 2200,
+        "utilizationPercent": 63.3
+      },
+      "activeCampaigns": 2,
+      "lastUpdated": "2024-01-08T14:23:00Z"
+    },
+    {
+      "id": "ch-paid-ads",
+      "name": "Paid Ads",
+      "type": "core-four",
+      "status": "constrained",
+      "description": "Client-financed acquisition with What-Who-When framework",
+      "metrics": {
+        "ltgpCacRatio": 2.8,
+        "spend": 18900,
+        "leads": 412,
+        "conversions": 31,
+        "conversionRate": 7.5
+      },
+      "budget": {
+        "allocated": 20000,
+        "remaining": 1100,
+        "utilizationPercent": 94.5
+      },
+      "activeCampaigns": 4,
+      "lastUpdated": "2024-01-08T14:23:00Z"
+    }
+  ],
+  "leadGetters": [
+    {
+      "id": "lg-referrals",
+      "name": "Customer Referrals",
+      "type": "lead-getter",
+      "status": "active",
+      "description": "7 automated referral triggers targeting 25%+ monthly referral rate",
+      "metrics": {
+        "referralRate": 18.5,
+        "newReferrals": 47,
+        "conversions": 12,
+        "conversionRate": 25.5
+      },
+      "activeCampaigns": 1,
+      "lastUpdated": "2024-01-08T14:23:00Z"
+    },
+    {
+      "id": "lg-employees",
+      "name": "Employees",
+      "type": "lead-getter",
+      "status": "active",
+      "description": "Training systems with performance tracking and ROI per employee",
+      "metrics": {
+        "activeEmployees": 8,
+        "leads": 23,
+        "conversions": 4,
+        "avgRoiPerEmployee": 4200
+      },
+      "activeCampaigns": 0,
+      "lastUpdated": "2024-01-08T14:23:00Z"
+    },
+    {
+      "id": "lg-agencies",
+      "name": "Agencies",
+      "type": "lead-getter",
+      "status": "paused",
+      "description": "6-month learning extraction to team training transition",
+      "metrics": {
+        "activeAgencies": 1,
+        "leads": 8,
+        "conversions": 1,
+        "monthlySpend": 3500
+      },
+      "activeCampaigns": 0,
+      "lastUpdated": "2024-01-08T14:23:00Z"
+    },
+    {
+      "id": "lg-affiliates",
+      "name": "Affiliates",
+      "type": "lead-getter",
+      "status": "active",
+      "description": "6-step army building with whisper-tease-shout launches",
+      "metrics": {
+        "activeAffiliates": 12,
+        "leads": 67,
+        "conversions": 9,
+        "avgCommissionPerSale": 450
+      },
+      "activeCampaigns": 2,
+      "lastUpdated": "2024-01-08T14:23:00Z"
+    }
+  ],
+  "campaigns": [
+    {
+      "id": "camp-001",
+      "name": "SaaS Founder Warm Intros",
+      "channelId": "ch-warm-outreach",
+      "status": "active",
+      "targetAudience": "Series A-B SaaS founders in network",
+      "metrics": {
+        "spend": 1200,
+        "leads": 28,
+        "conversions": 4,
+        "ltgpCacRatio": 9.2
+      },
+      "startDate": "2024-01-02",
+      "lastActivity": "2024-01-08T13:45:00Z"
+    },
+    {
+      "id": "camp-002",
+      "name": "LinkedIn CEO Outreach - Tech",
+      "channelId": "ch-cold-outreach",
+      "status": "active",
+      "targetAudience": "Tech CEOs, 50-500 employees, $10M+ revenue",
+      "metrics": {
+        "spend": 4800,
+        "leads": 142,
+        "conversions": 11,
+        "ltgpCacRatio": 6.1
+      },
+      "startDate": "2023-12-28",
+      "lastActivity": "2024-01-08T14:12:00Z"
+    },
+    {
+      "id": "camp-003",
+      "name": "Email Sequence - Healthcare",
+      "channelId": "ch-cold-outreach",
+      "status": "active",
+      "targetAudience": "Healthcare ops directors, 200+ beds",
+      "metrics": {
+        "spend": 3200,
+        "leads": 89,
+        "conversions": 7,
+        "ltgpCacRatio": 5.4
+      },
+      "startDate": "2023-12-30",
+      "lastActivity": "2024-01-08T11:20:00Z"
+    },
+    {
+      "id": "camp-004",
+      "name": "Manufacturing Outreach Test",
+      "channelId": "ch-cold-outreach",
+      "status": "paused",
+      "targetAudience": "Manufacturing VPs, $50M+ revenue",
+      "metrics": {
+        "spend": 2100,
+        "leads": 31,
+        "conversions": 2,
+        "ltgpCacRatio": 2.8
+      },
+      "startDate": "2024-01-04",
+      "lastActivity": "2024-01-07T16:30:00Z"
+    },
+    {
+      "id": "camp-005",
+      "name": "LinkedIn Thought Leadership",
+      "channelId": "ch-content",
+      "status": "active",
+      "targetAudience": "B2B growth leaders, VPs and above",
+      "metrics": {
+        "spend": 1200,
+        "leads": 67,
+        "conversions": 9,
+        "ltgpCacRatio": 14.2
+      },
+      "startDate": "2023-12-20",
+      "lastActivity": "2024-01-08T09:15:00Z"
+    },
+    {
+      "id": "camp-006",
+      "name": "YouTube Case Study Series",
+      "channelId": "ch-content",
+      "status": "active",
+      "targetAudience": "SaaS founders seeking growth strategies",
+      "metrics": {
+        "spend": 2600,
+        "leads": 89,
+        "conversions": 13,
+        "ltgpCacRatio": 11.8
+      },
+      "startDate": "2023-12-15",
+      "lastActivity": "2024-01-08T10:30:00Z"
+    },
+    {
+      "id": "camp-007",
+      "name": "LinkedIn Ads - Decision Makers",
+      "channelId": "ch-paid-ads",
+      "status": "active",
+      "targetAudience": "VP+ titles, tech companies 100-1000 employees",
+      "metrics": {
+        "spend": 8900,
+        "leads": 201,
+        "conversions": 15,
+        "ltgpCacRatio": 3.2
+      },
+      "startDate": "2024-01-01",
+      "lastActivity": "2024-01-08T14:20:00Z"
+    },
+    {
+      "id": "camp-008",
+      "name": "Google Search - High Intent",
+      "channelId": "ch-paid-ads",
+      "status": "active",
+      "targetAudience": "High-intent search terms, revenue operations",
+      "metrics": {
+        "spend": 6200,
+        "leads": 124,
+        "conversions": 9,
+        "ltgpCacRatio": 2.6
+      },
+      "startDate": "2023-12-28",
+      "lastActivity": "2024-01-08T13:50:00Z"
+    },
+    {
+      "id": "camp-009",
+      "name": "Retargeting - Website Visitors",
+      "channelId": "ch-paid-ads",
+      "status": "active",
+      "targetAudience": "Previous website visitors, no conversion",
+      "metrics": {
+        "spend": 2800,
+        "leads": 67,
+        "conversions": 5,
+        "ltgpCacRatio": 2.4
+      },
+      "startDate": "2024-01-03",
+      "lastActivity": "2024-01-08T12:10:00Z"
+    },
+    {
+      "id": "camp-010",
+      "name": "Milestone Referral Trigger",
+      "channelId": "lg-referrals",
+      "status": "active",
+      "targetAudience": "Customers hitting 90-day success milestone",
+      "metrics": {
+        "triggered": 34,
+        "newReferrals": 18,
+        "conversions": 5
+      },
+      "startDate": "2023-11-15",
+      "lastActivity": "2024-01-08T08:00:00Z"
+    },
+    {
+      "id": "camp-011",
+      "name": "Affiliate Whisper-Tease Launch",
+      "channelId": "lg-affiliates",
+      "status": "active",
+      "targetAudience": "12 active affiliates in growth/SaaS niche",
+      "metrics": {
+        "reached": 12,
+        "leads": 42,
+        "conversions": 6
+      },
+      "startDate": "2024-01-05",
+      "lastActivity": "2024-01-08T11:45:00Z"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "dec-001",
+      "timestamp": "2024-01-08T10:15:00Z",
+      "decisionType": "budget-reallocation",
+      "title": "Shift $3K from Paid Ads to Content",
+      "reasoning": "Content channel showing 12.4 LTGP:CAC (target: 5.0+) while Paid Ads declined to 2.8 (below 3.0 threshold). Content has capacity to scale with proven hook formulas showing consistent performance.",
+      "context": {
+        "contentLtgpCac": 12.4,
+        "paidAdsLtgpCac": 2.8,
+        "threshold": 3.0,
+        "contentCapacity": 0.37
+      },
+      "expectedOutcome": "Increase Content channel leads by 40-50 while maintaining LTGP:CAC above 10.0",
+      "actualResult": null,
+      "affectedChannelIds": ["ch-content", "ch-paid-ads"],
+      "affectedCampaignIds": [],
+      "status": "executing"
+    },
+    {
+      "id": "dec-002",
+      "timestamp": "2024-01-07T16:35:00Z",
+      "decisionType": "campaign-pause",
+      "title": "Pause Manufacturing Outreach Test",
+      "reasoning": "Campaign 'Manufacturing Outreach Test' showing 2.8 LTGP:CAC after 4 days and 31 leads. Below 3.0 threshold with declining response rates (8% day 1, 3% day 4). Audience may require different messaging framework.",
+      "context": {
+        "campaignLtgpCac": 2.8,
+        "daysRunning": 4,
+        "responseRateDecline": 62.5,
+        "threshold": 3.0
+      },
+      "expectedOutcome": "Prevent wasted spend on underperforming audience segment",
+      "actualResult": "Paused after 3 days. Saved estimated $1,200 in additional spend.",
+      "affectedChannelIds": ["ch-cold-outreach"],
+      "affectedCampaignIds": ["camp-004"],
+      "status": "completed"
+    },
+    {
+      "id": "dec-003",
+      "timestamp": "2024-01-07T09:20:00Z",
+      "decisionType": "constraint-detection",
+      "title": "Paid Ads Approaching Budget Limit",
+      "reasoning": "Paid Ads channel at 94.5% budget utilization with 5 days remaining in period. Current burn rate ($3,780/day) will exceed allocated budget by Jan 10. LTGP:CAC below target suggests reducing spend rather than increasing allocation.",
+      "context": {
+        "utilizationPercent": 94.5,
+        "daysRemaining": 5,
+        "dailyBurnRate": 3780,
+        "ltgpCacRatio": 2.8
+      },
+      "expectedOutcome": "Flag constraint to human governance team for strategic decision on budget increase vs spend reduction",
+      "actualResult": "Escalated to governance. Awaiting human decision on Q1 budget adjustment.",
+      "affectedChannelIds": ["ch-paid-ads"],
+      "affectedCampaignIds": [],
+      "status": "escalated"
+    },
+    {
+      "id": "dec-004",
+      "timestamp": "2024-01-06T14:10:00Z",
+      "decisionType": "channel-optimization",
+      "title": "Optimize Cold Outreach Sequences",
+      "reasoning": "Cold Outreach showing stable 5.8 LTGP:CAC with high volume (342 leads, 5 campaigns). Institutional memory identified 'Curiosity' hooks outperforming 'Proof' hooks by 23% in tech segment. Reallocating 30% more volume to curiosity-based sequences.",
+      "context": {
+        "currentLtgpCac": 5.8,
+        "curiosityHookPerformance": 8.2,
+        "proofHookPerformance": 6.1,
+        "performanceDelta": 23
+      },
+      "expectedOutcome": "Increase Cold Outreach LTGP:CAC from 5.8 to 6.5+ by optimizing sequence hook patterns",
+      "actualResult": "In progress. Early data shows 7.1 LTGP:CAC on optimized sequences (22% improvement).",
+      "affectedChannelIds": ["ch-cold-outreach"],
+      "affectedCampaignIds": ["camp-002", "camp-003"],
+      "status": "executing"
+    },
+    {
+      "id": "dec-005",
+      "timestamp": "2024-01-05T11:45:00Z",
+      "decisionType": "campaign-scale",
+      "title": "Scale Warm Outreach - High LTGP:CAC",
+      "reasoning": "Warm Outreach showing 8.2 LTGP:CAC (target: 5.0+) with only 52.5% budget utilization. Relationship mining identified 47 additional high-quality warm connections. Increasing budget allocation by $2,000 to capitalize on opportunity.",
+      "context": {
+        "currentLtgpCac": 8.2,
+        "utilizationPercent": 52.5,
+        "availableConnections": 47,
+        "proposedBudgetIncrease": 2000
+      },
+      "expectedOutcome": "Generate 30-40 additional warm leads while maintaining LTGP:CAC above 7.0",
+      "actualResult": "Budget increased. Generated 22 leads so far, maintaining 8.4 LTGP:CAC.",
+      "affectedChannelIds": ["ch-warm-outreach"],
+      "affectedCampaignIds": [],
+      "status": "completed"
+    },
+    {
+      "id": "dec-006",
+      "timestamp": "2024-01-04T08:30:00Z",
+      "decisionType": "offer-testing",
+      "title": "Test New Lead Magnet - Content Channel",
+      "reasoning": "Content channel performing well (12.4 LTGP:CAC) but conversion rates plateauing at 14.1%. Institutional memory suggests 'Reveal Problem' lead magnets outperform 'Free Sample' in awareness-building content. Testing new assessment-style lead magnet.",
+      "context": {
+        "currentConversionRate": 14.1,
+        "plateauDuration": 14,
+        "revealProblemPerformance": 18.2,
+        "freeSamplePerformance": 14.5
+      },
+      "expectedOutcome": "Increase Content channel conversion rate from 14.1% to 17%+ with new lead magnet",
+      "actualResult": "Test launched Jan 4. Awaiting 7-day minimum data collection period.",
+      "affectedChannelIds": ["ch-content"],
+      "affectedCampaignIds": ["camp-005"],
+      "status": "testing"
+    },
+    {
+      "id": "dec-007",
+      "timestamp": "2024-01-03T15:20:00Z",
+      "decisionType": "budget-reallocation",
+      "title": "Reduce Paid Ads LinkedIn Campaign",
+      "reasoning": "LinkedIn Ads campaign showing declining LTGP:CAC (started 4.2, now 3.2) with signs of audience fatigue (CTR dropped 31% over 7 days). Reducing daily budget by 40% while monitoring for stabilization.",
+      "context": {
+        "startingLtgpCac": 4.2,
+        "currentLtgpCac": 3.2,
+        "ctrDecline": 31,
+        "daysRunning": 7
+      },
+      "expectedOutcome": "Prevent LTGP:CAC from falling below 3.0 threshold by reducing spend on fatigued audience",
+      "actualResult": "Budget reduced. LTGP:CAC stabilized at 3.2 over next 3 days.",
+      "affectedChannelIds": ["ch-paid-ads"],
+      "affectedCampaignIds": ["camp-007"],
+      "status": "completed"
+    },
+    {
+      "id": "dec-008",
+      "timestamp": "2024-01-02T10:00:00Z",
+      "decisionType": "channel-optimization",
+      "title": "Optimize Referral Trigger Timing",
+      "reasoning": "Customer Referrals at 18.5% monthly rate (target: 25%+). Institutional memory shows referral requests at 90-day milestone outperform 30-day by 64%. Shifting all automated triggers to 90+ day customer milestone.",
+      "context": {
+        "currentReferralRate": 18.5,
+        "targetReferralRate": 25,
+        "day90Performance": 28.2,
+        "day30Performance": 17.2
+      },
+      "expectedOutcome": "Increase monthly referral rate from 18.5% to 24%+ by optimizing trigger timing",
+      "actualResult": "Timing optimized. Monitoring for 30-day measurement period.",
+      "affectedChannelIds": [],
+      "affectedCampaignIds": ["camp-010"],
+      "status": "monitoring"
+    }
+  ],
+  "performanceHistory": [
+    { "date": "2023-12-09", "ltgpCacRatio": 6.2, "totalSpend": 28400, "totalLeads": 642 },
+    { "date": "2023-12-10", "ltgpCacRatio": 6.4, "totalSpend": 29100, "totalLeads": 671 },
+    { "date": "2023-12-11", "ltgpCacRatio": 6.1, "totalSpend": 31200, "totalLeads": 689 },
+    { "date": "2023-12-12", "ltgpCacRatio": 6.5, "totalSpend": 30800, "totalLeads": 712 },
+    { "date": "2023-12-13", "ltgpCacRatio": 6.8, "totalSpend": 29900, "totalLeads": 728 },
+    { "date": "2023-12-14", "ltgpCacRatio": 6.6, "totalSpend": 31500, "totalLeads": 745 },
+    { "date": "2023-12-15", "ltgpCacRatio": 6.9, "totalSpend": 32100, "totalLeads": 782 },
+    { "date": "2023-12-16", "ltgpCacRatio": 7.1, "totalSpend": 30200, "totalLeads": 801 },
+    { "date": "2023-12-17", "ltgpCacRatio": 7.3, "totalSpend": 29800, "totalLeads": 819 },
+    { "date": "2023-12-18", "ltgpCacRatio": 7.0, "totalSpend": 31900, "totalLeads": 834 },
+    { "date": "2023-12-19", "ltgpCacRatio": 7.2, "totalSpend": 30600, "totalLeads": 856 },
+    { "date": "2023-12-20", "ltgpCacRatio": 7.5, "totalSpend": 29400, "totalLeads": 878 },
+    { "date": "2023-12-21", "ltgpCacRatio": 7.4, "totalSpend": 31100, "totalLeads": 892 },
+    { "date": "2023-12-22", "ltgpCacRatio": 7.6, "totalSpend": 30900, "totalLeads": 914 },
+    { "date": "2023-12-23", "ltgpCacRatio": 7.8, "totalSpend": 28700, "totalLeads": 931 },
+    { "date": "2023-12-24", "ltgpCacRatio": 7.9, "totalSpend": 27200, "totalLeads": 945 },
+    { "date": "2023-12-25", "ltgpCacRatio": 8.1, "totalSpend": 24800, "totalLeads": 958 },
+    { "date": "2023-12-26", "ltgpCacRatio": 8.0, "totalSpend": 26900, "totalLeads": 972 },
+    { "date": "2023-12-27", "ltgpCacRatio": 7.8, "totalSpend": 29100, "totalLeads": 989 },
+    { "date": "2023-12-28", "ltgpCacRatio": 7.6, "totalSpend": 31400, "totalLeads": 1006 },
+    { "date": "2023-12-29", "ltgpCacRatio": 7.4, "totalSpend": 32800, "totalLeads": 1024 },
+    { "date": "2023-12-30", "ltgpCacRatio": 7.2, "totalSpend": 33600, "totalLeads": 1041 },
+    { "date": "2023-12-31", "ltgpCacRatio": 7.1, "totalSpend": 31200, "totalLeads": 1058 },
+    { "date": "2024-01-01", "ltgpCacRatio": 6.9, "totalSpend": 33900, "totalLeads": 1076 },
+    { "date": "2024-01-02", "ltgpCacRatio": 6.7, "totalSpend": 35400, "totalLeads": 1095 },
+    { "date": "2024-01-03", "ltgpCacRatio": 6.5, "totalSpend": 36800, "totalLeads": 1112 },
+    { "date": "2024-01-04", "ltgpCacRatio": 6.4, "totalSpend": 37900, "totalLeads": 1128 },
+    { "date": "2024-01-05", "ltgpCacRatio": 6.6, "totalSpend": 38200, "totalLeads": 1147 },
+    { "date": "2024-01-06", "ltgpCacRatio": 6.8, "totalSpend": 38900, "totalLeads": 1169 },
+    { "date": "2024-01-07", "ltgpCacRatio": 7.0, "totalSpend": 39100, "totalLeads": 1192 },
+    { "date": "2024-01-08", "ltgpCacRatio": 7.3, "totalSpend": 39400, "totalLeads": 999 }
+  ]
+}

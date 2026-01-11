@@ -1,0 +1,670 @@
+{
+  "_meta": {
+    "models": {
+      "brainStatus": "The current operational state of Strategy Brain, including its autonomy mode, active decision count, and overall health indicator.",
+      "decisions": "Strategic choices made by Strategy Brain. Each decision flows through stages (Signal Detected → Analyzing → Proposed → Executing) and includes AI reasoning, source metrics, and expected outcomes.",
+      "channels": "The Core Four marketing channels (Warm Outreach, Cold Outreach, Content, Paid Ads) that Strategy Brain monitors and optimizes. Each tracks budget allocation, performance metrics, and constraint detection status.",
+      "insights": "Learned patterns from institutional memory that inform future decisions. These compound over time and represent winning strategies, failed experiments, and effective responses.",
+      "decisionMetrics": "Source data that triggered each decision, including LTGP:CAC ratios, customer feedback signals, constraint indicators, and performance trends."
+    },
+    "relationships": [
+      "Brain Status reflects the current operational mode and tracks all active Decisions",
+      "Each Decision references source Channels and Decision Metrics that triggered it",
+      "Decisions create and reference Insights as they learn from past outcomes",
+      "Channels aggregate performance data that feeds into Decision creation",
+      "Decision Metrics provide the evidence and reasoning for each strategic choice"
+    ]
+  },
+  "brainStatus": {
+    "mode": "training",
+    "activeDecisionCount": 4,
+    "healthStatus": "healthy",
+    "lastActivityTimestamp": "2024-01-15T14:32:00Z",
+    "decisionsToday": 12,
+    "approvalsRequired": 3
+  },
+  "decisions": [
+    {
+      "id": "dec-001",
+      "type": "budget-reallocation",
+      "stage": "proposed",
+      "title": "Shift $3,500/day from Cold Outreach to Paid Ads",
+      "description": "LinkedIn ads showing 7.2:1 LTGP:CAC while cold email declining to 2.8:1. Recommend reallocating budget to capitalize on high-performing channel.",
+      "timestamp": "2024-01-15T14:30:00Z",
+      "priority": "medium",
+      "affectedChannels": ["cold-outreach", "paid-ads"],
+      "expectedOutcome": "Increase overall LTGP:CAC from 4.5:1 to 5.3:1 within 7 days",
+      "confidence": 0.87,
+      "aiThinking": "Analyzed 14-day performance trend across all channels. Cold Outreach LTGP:CAC declined from 4.2:1 to 2.8:1 (33% drop) while Paid Ads improved from 5.1:1 to 7.2:1 (41% increase). Email open rates dropped from 38% to 22%, suggesting audience fatigue. LinkedIn CTR increased from 2.1% to 3.8%, indicating resonant messaging. Current budget allocation: Cold=$8k/day, Paid=$5k/day. Proposed: Cold=$4.5k/day, Paid=$8.5k/day. Risk assessment: Medium. Cold Outreach may recover with creative refresh, but current underperformance justifies reallocation. Historical pattern: Similar reallocations in Q3 2023 yielded 23% LTGP improvement over 30 days.",
+      "sourceMetrics": {
+        "coldOutreachLTGPCAC": 2.8,
+        "paidAdsLTGPCAC": 7.2,
+        "coldOutreachTrend": "declining",
+        "paidAdsTrend": "improving",
+        "coldOutreachOpenRate": 0.22,
+        "linkedInCTR": 0.038
+      },
+      "historicalContext": [
+        {
+          "decisionId": "dec-historical-042",
+          "date": "2023-09-12",
+          "summary": "Shifted $5k/day from Content to Paid Ads due to similar LTGP:CAC gap",
+          "outcome": "Successful - overall LTGP improved 23% over 30 days"
+        }
+      ]
+    },
+    {
+      "id": "dec-002",
+      "type": "constraint-response",
+      "stage": "analyzing",
+      "title": "LinkedIn Audience Exhaustion Detected",
+      "description": "Target audience of 250k reached 78% saturation. Frequency increased to 4.2 impressions/user. Applying More-Better-New framework to determine response.",
+      "timestamp": "2024-01-15T13:45:00Z",
+      "priority": "high",
+      "affectedChannels": ["paid-ads"],
+      "expectedOutcome": "TBD - analyzing whether to optimize creative (Better) or expand targeting (New)",
+      "confidence": null,
+      "aiThinking": "Currently analyzing constraint type and appropriate response. Audience saturation: 78% of 250k target (195k reached). Frequency: 4.2 impressions/user (up from 2.1 last week). CTR declining: 3.8% → 3.2% over 5 days, suggesting ad fatigue. Creative tested: 3 variants, best performer at 3.8% CTR. CPA increased 18% week-over-week. Evaluating options: (1) BETTER: Launch 5 new creative variants with different hooks (estimated +0.8% CTR improvement), (2) NEW: Expand to adjacent audience segment (+180k users, slightly lower intent). Historical data: Creative refreshes in similar situations yielded 15-25% CTR improvement. Audience expansion to adjacent segments historically converted at 72% efficiency of core audience. Recommendation pending completion of variant performance prediction...",
+      "sourceMetrics": {
+        "audienceSaturation": 0.78,
+        "frequency": 4.2,
+        "ctrTrend": "declining",
+        "currentCTR": 0.032,
+        "cpaIncrease": 0.18,
+        "creativeVariantsTested": 3
+      },
+      "historicalContext": []
+    },
+    {
+      "id": "dec-003",
+      "type": "offer-evolution",
+      "stage": "signal-detected",
+      "title": "Pain Point Shift: 'Time to Results' Mentioned 3x More",
+      "description": "Customer feedback analysis shows 'time to results' mentioned 47 times (up from 15 last month). May indicate offer positioning opportunity.",
+      "timestamp": "2024-01-15T12:10:00Z",
+      "priority": "low",
+      "affectedChannels": [],
+      "expectedOutcome": null,
+      "confidence": null,
+      "aiThinking": null,
+      "sourceMetrics": {
+        "painPointMentions": 47,
+        "previousMonthMentions": 15,
+        "painPointRank": 2,
+        "sentimentScore": -0.68
+      },
+      "historicalContext": []
+    },
+    {
+      "id": "dec-004",
+      "type": "budget-reallocation",
+      "stage": "executing",
+      "title": "Increase Warm Outreach Budget by $2k/day",
+      "description": "Referral program showing 8.9:1 LTGP:CAC with 31% monthly referral rate. Scaling to capitalize on compounding growth.",
+      "timestamp": "2024-01-15T09:15:00Z",
+      "priority": "medium",
+      "affectedChannels": ["warm-outreach"],
+      "expectedOutcome": "Target 35% monthly referral rate, maintain >8:1 LTGP:CAC",
+      "confidence": 0.92,
+      "aiThinking": "Warm Outreach via referral program dramatically outperforming all channels. Current metrics: 8.9:1 LTGP:CAC (highest across Core Four), 31% monthly referral rate (target: 25%+), 42% of new customers coming from referrals (up from 18% in Q4). Referral Growth Equation: 31% referred - 4% churned = 27% compounding monthly growth. Historical pattern: Referral programs show linear scaling up to 50% saturation, current at 31%. Investment: Increasing automated referral trigger budget from $3k/day to $5k/day. Risk: Low. Referral quality scores consistently 15% higher than cold acquisition. Customer LTV from referrals: $12,400 vs $8,100 cold acquisition.",
+      "sourceMetrics": {
+        "warmOutreachLTGPCAC": 8.9,
+        "monthlyReferralRate": 0.31,
+        "referralGrowthRate": 0.27,
+        "referralCustomerLTV": 12400,
+        "coldAcquisitionLTV": 8100
+      },
+      "historicalContext": [
+        {
+          "decisionId": "dec-historical-038",
+          "date": "2023-08-20",
+          "summary": "Scaled referral budget from $1.5k to $3k/day",
+          "outcome": "Successful - referral rate increased from 18% to 28% over 60 days"
+        }
+      ]
+    },
+    {
+      "id": "dec-005",
+      "type": "channel-pause",
+      "stage": "proposed",
+      "title": "Pause Content Channel for Creative Refresh",
+      "description": "LinkedIn content engagement down 62% month-over-month. 6 hook formulas showing diminishing returns. Recommend 7-day pause for strategy evolution.",
+      "timestamp": "2024-01-15T11:20:00Z",
+      "priority": "medium",
+      "affectedChannels": ["content"],
+      "expectedOutcome": "Develop 3 new content angles based on recent customer feedback, relaunch with fresh positioning",
+      "confidence": 0.79,
+      "aiThinking": "Content channel performance declining sharply. Engagement rate: 2.1% (down from 5.5% in December). Post reach: averaging 1,200 (down from 3,100). All 6 hook formulas tested, best performer (Big Promise) at 2.8% engagement. LTGP:CAC for content: 3.2:1 (below 5:1 target). Analysis suggests audience fatigue from repetitive positioning. Recent customer interviews revealed 3 emerging pain points not addressed in current content: (1) integration complexity, (2) time to first value, (3) team adoption challenges. Recommendation: 7-day creative pause to develop new content angles targeting these pain points. Historical precedent: Q2 2023 content refresh after similar decline resulted in 84% engagement recovery and 6.1:1 LTGP:CAC within 21 days of relaunch.",
+      "sourceMetrics": {
+        "engagementRate": 0.021,
+        "previousEngagementRate": 0.055,
+        "postReach": 1200,
+        "contentLTGPCAC": 3.2,
+        "hookFormulaTested": 6,
+        "bestPerformerEngagement": 0.028
+      },
+      "historicalContext": [
+        {
+          "decisionId": "dec-historical-029",
+          "date": "2023-05-15",
+          "summary": "Paused content for 10-day creative refresh during engagement decline",
+          "outcome": "Successful - engagement recovered 84%, LTGP:CAC improved to 6.1:1 within 3 weeks"
+        }
+      ]
+    },
+    {
+      "id": "dec-006",
+      "type": "offer-evolution",
+      "stage": "executing",
+      "title": "Launch 'Quick Start Workshop' Lead Magnet",
+      "description": "Created new One Step lead magnet targeting 'time to results' pain point. 90-minute workshop format with immediate implementation framework.",
+      "timestamp": "2024-01-14T16:40:00Z",
+      "priority": "high",
+      "affectedChannels": ["paid-ads", "content"],
+      "expectedOutcome": "Target 32% conversion rate on workshop landing page, 18% qualified lead rate",
+      "confidence": 0.84,
+      "aiThinking": "New offer engineered in response to 'time to results' pain point frequency increase. Lead magnet type: One Step (workshop) selected based on customer awareness level (Problem Aware → Solution Aware transition). Workshop delivers immediate value: 90-minute live session with implementation framework, workbook, and 3 quick-win templates. Value stack: Workshop ($997 value) + Implementation Workbook ($147) + Template Library ($247) + 30-day email course ($397) = $1,788 total value. Delivery: Live event (high perceived value) with replay access. No-show mitigation: automated reminder sequence. Similar workshop lead magnet in Q1 2023 converted at 28% with 22% qualified lead rate. Projected improvement based on stronger pain point alignment: 32% conversion, 18% qualified leads (slightly lower qualification due to top-of-funnel positioning).",
+      "sourceMetrics": {
+        "painPointAlignment": 0.94,
+        "leadMagnetType": "one-step-workshop",
+        "valueStackTotal": 1788,
+        "projectedConversionRate": 0.32,
+        "projectedQualifiedRate": 0.18
+      },
+      "historicalContext": [
+        {
+          "decisionId": "dec-historical-051",
+          "date": "2023-02-10",
+          "summary": "Launched similar workshop lead magnet for different pain point",
+          "outcome": "Successful - 28% conversion, 22% qualified lead rate, contributed to 14% revenue increase"
+        }
+      ]
+    },
+    {
+      "id": "dec-007",
+      "type": "constraint-response",
+      "stage": "proposed",
+      "title": "Apply 'More' Lever: Scale Cold Outreach Volume 3x",
+      "description": "Cold Outreach capacity constraint identified. Currently sending 1,100 emails/day with 4.2:1 LTGP:CAC. Infrastructure supports 3,500/day. Recommend volume increase.",
+      "timestamp": "2024-01-15T10:05:00Z",
+      "priority": "medium",
+      "affectedChannels": ["cold-outreach"],
+      "expectedOutcome": "Increase daily email volume to 3,500 while maintaining 3.5:1+ LTGP:CAC",
+      "confidence": 0.81,
+      "aiThinking": "More-Better-New analysis indicates 'More' is appropriate lever. Current performance: 4.2:1 LTGP:CAC (above 3:1 threshold), 1,100 emails/day (31% of infrastructure capacity). Constraint identified: artificial volume cap, not audience or creative exhaustion. List size: 480k prospects (only 12% reached). Deliverability: 97% (healthy). Open rate: 28% (stable). Reply rate: 3.2% (above benchmark). Personalization engine can handle 3,500/day without quality degradation. Risk assessment: Conservative 3x scale unlikely to saturate audience or trigger deliverability issues. Similar 'More' lever applied to Paid Ads in Q4 2023: scaled spend 2.8x, LTGP:CAC declined only 9% (from 6.1:1 to 5.5:1), net revenue increase of 142%. Monitoring plan: Track deliverability and response rates daily during ramp, pause if LTGP:CAC falls below 3.5:1.",
+      "sourceMetrics": {
+        "currentVolume": 1100,
+        "capacityVolume": 3500,
+        "listSize": 480000,
+        "percentReached": 0.12,
+        "deliverability": 0.97,
+        "openRate": 0.28,
+        "replyRate": 0.032,
+        "coldOutreachLTGPCAC": 4.2
+      },
+      "historicalContext": [
+        {
+          "decisionId": "dec-historical-047",
+          "date": "2023-10-08",
+          "summary": "Applied 'More' lever to Paid Ads, scaled 2.8x",
+          "outcome": "Successful - LTGP:CAC declined 9% but net revenue increased 142%"
+        }
+      ]
+    },
+    {
+      "id": "dec-008",
+      "type": "budget-reallocation",
+      "stage": "signal-detected",
+      "title": "Paid Ads Spend Approaching Daily Limit ($10k)",
+      "description": "LinkedIn ads spend tracking toward $9,800/day. Will hit $10k escalation threshold by tomorrow if trend continues. May require human approval for increase.",
+      "timestamp": "2024-01-15T14:00:00Z",
+      "priority": "high",
+      "affectedChannels": ["paid-ads"],
+      "expectedOutcome": null,
+      "confidence": null,
+      "aiThinking": null,
+      "sourceMetrics": {
+        "currentDailySpend": 9800,
+        "escalationThreshold": 10000,
+        "projectedSpend": 10400,
+        "paidAdsLTGPCAC": 7.2
+      },
+      "historicalContext": []
+    }
+  ],
+  "channels": [
+    {
+      "id": "warm-outreach",
+      "name": "Warm Outreach",
+      "description": "Referral programs and relationship mining",
+      "dailyBudget": 5000,
+      "ltgpCacRatio": 8.9,
+      "status": "active",
+      "healthStatus": "excellent",
+      "performance": "outperforming",
+      "monthlyReferralRate": 0.31,
+      "constraintStatus": "none"
+    },
+    {
+      "id": "cold-outreach",
+      "name": "Cold Outreach",
+      "description": "Personalized email sequences at scale",
+      "dailyBudget": 8000,
+      "ltgpCacRatio": 2.8,
+      "status": "active",
+      "healthStatus": "warning",
+      "performance": "underperforming",
+      "monthlyReferralRate": 0,
+      "constraintStatus": "volume-capped"
+    },
+    {
+      "id": "content",
+      "name": "Content",
+      "description": "Multi-platform thought leadership and value content",
+      "dailyBudget": 4000,
+      "ltgpCacRatio": 3.2,
+      "status": "active",
+      "healthStatus": "warning",
+      "performance": "declining",
+      "monthlyReferralRate": 0,
+      "constraintStatus": "creative-fatigue"
+    },
+    {
+      "id": "paid-ads",
+      "name": "Paid Ads",
+      "description": "LinkedIn and social media advertising",
+      "dailyBudget": 5000,
+      "ltgpCacRatio": 7.2,
+      "status": "active",
+      "healthStatus": "good",
+      "performance": "improving",
+      "monthlyReferralRate": 0,
+      "constraintStatus": "audience-saturation"
+    }
+  ],
+  "activityLog": [
+    {
+      "id": "activity-001",
+      "timestamp": "2024-01-15T14:32:00Z",
+      "type": "signal-detection",
+      "title": "Paid Ads Spend Approaching Threshold",
+      "description": "Detected daily spend tracking toward $10k escalation threshold. Creating signal for analysis.",
+      "status": "completed",
+      "relatedDecisionId": "dec-008",
+      "relatedChannelId": "paid-ads"
+    },
+    {
+      "id": "activity-002",
+      "timestamp": "2024-01-15T14:30:15Z",
+      "type": "decision-execution",
+      "title": "Budget Reallocation Proposed",
+      "description": "Calculated optimal budget shift: $3,500/day from Cold Outreach to Paid Ads based on LTGP:CAC performance delta.",
+      "status": "completed",
+      "relatedDecisionId": "dec-001",
+      "relatedChannelId": "paid-ads",
+      "metadata": {
+        "calculationTime": "2.3s",
+        "confidenceScore": 0.87
+      }
+    },
+    {
+      "id": "activity-003",
+      "timestamp": "2024-01-15T14:28:42Z",
+      "type": "metric-calculation",
+      "title": "Running LTGP:CAC Analysis Across All Channels",
+      "description": "Aggregating 14-day performance trends for Core Four channels. Processing 2,847 data points.",
+      "status": "in-progress",
+      "metadata": {
+        "progress": 0.73,
+        "estimatedCompletion": "2024-01-15T14:29:10Z"
+      }
+    },
+    {
+      "id": "activity-004",
+      "timestamp": "2024-01-15T14:15:00Z",
+      "type": "constraint-detection",
+      "title": "LinkedIn Audience Saturation Detected",
+      "description": "Target audience reached 78% saturation with frequency of 4.2 impressions/user. Applying More-Better-New framework.",
+      "status": "completed",
+      "relatedDecisionId": "dec-002",
+      "relatedChannelId": "paid-ads"
+    },
+    {
+      "id": "activity-005",
+      "timestamp": "2024-01-15T14:10:30Z",
+      "type": "insight-application",
+      "title": "Applied Insight: Quick Win Positioning",
+      "description": "Referenced learned pattern 'Quick Win positioning converts 2.3x better' when analyzing new lead magnet offer.",
+      "status": "completed",
+      "relatedDecisionId": "dec-006",
+      "metadata": {
+        "insightId": "insight-004",
+        "confidenceScore": 0.84
+      }
+    },
+    {
+      "id": "activity-006",
+      "timestamp": "2024-01-15T14:05:00Z",
+      "type": "escalation",
+      "title": "High-Priority Decision Requires Approval",
+      "description": "LinkedIn audience exhaustion requires strategic response. Decision escalated due to potential budget impact >$5k/day.",
+      "status": "warning",
+      "relatedDecisionId": "dec-002",
+      "relatedChannelId": "paid-ads"
+    },
+    {
+      "id": "activity-007",
+      "timestamp": "2024-01-15T13:45:20Z",
+      "type": "analysis",
+      "title": "Analyzing Content Channel Decline",
+      "description": "Running engagement analysis on LinkedIn content. Testing 6 hook formulas against recent performance data.",
+      "status": "completed",
+      "relatedDecisionId": "dec-005",
+      "relatedChannelId": "content"
+    },
+    {
+      "id": "activity-008",
+      "timestamp": "2024-01-15T13:30:00Z",
+      "type": "mode-change",
+      "title": "Switched to Training Mode",
+      "description": "User manually switched Strategy Brain from Supervised to Training mode. All decisions now require explicit approval.",
+      "status": "completed",
+      "metadata": {
+        "previousMode": "supervised",
+        "newMode": "training",
+        "triggeredBy": "user"
+      }
+    },
+    {
+      "id": "activity-009",
+      "timestamp": "2024-01-15T13:15:00Z",
+      "type": "decision-execution",
+      "title": "Warm Outreach Budget Increase Executed",
+      "description": "Successfully scaled referral program budget from $3k to $5k/day. Monitoring for performance impact.",
+      "status": "completed",
+      "relatedDecisionId": "dec-004",
+      "relatedChannelId": "warm-outreach"
+    },
+    {
+      "id": "activity-010",
+      "timestamp": "2024-01-15T13:00:00Z",
+      "type": "signal-detection",
+      "title": "Pain Point Frequency Spike Detected",
+      "description": "Customer feedback shows 'time to results' mentioned 47 times (up 213% from last month). Creating signal for offer evolution analysis.",
+      "status": "completed",
+      "relatedDecisionId": "dec-003"
+    },
+    {
+      "id": "activity-011",
+      "timestamp": "2024-01-15T12:45:00Z",
+      "type": "metric-calculation",
+      "title": "Calculating Monthly Referral Rates",
+      "description": "Aggregating referral program performance across all customer cohorts. Processing 1,247 customer records.",
+      "status": "completed",
+      "relatedChannelId": "warm-outreach"
+    },
+    {
+      "id": "activity-012",
+      "timestamp": "2024-01-15T12:30:00Z",
+      "type": "constraint-detection",
+      "title": "Cold Outreach Volume Cap Identified",
+      "description": "Current email volume at 1,100/day while infrastructure supports 3,500/day. Opportunity to apply 'More' lever.",
+      "status": "completed",
+      "relatedDecisionId": "dec-007",
+      "relatedChannelId": "cold-outreach"
+    },
+    {
+      "id": "activity-013",
+      "timestamp": "2024-01-15T12:00:00Z",
+      "type": "analysis",
+      "title": "Historical Context Search",
+      "description": "Searching institutional memory for similar budget reallocation decisions. Found 3 relevant historical patterns.",
+      "status": "completed",
+      "relatedDecisionId": "dec-001",
+      "metadata": {
+        "patternsFound": 3,
+        "searchTime": "1.8s"
+      }
+    },
+    {
+      "id": "activity-014",
+      "timestamp": "2024-01-15T11:45:00Z",
+      "type": "decision-execution",
+      "title": "New Lead Magnet Launched",
+      "description": "Successfully launched 'Quick Start Workshop' lead magnet across Paid Ads and Content channels.",
+      "status": "completed",
+      "relatedDecisionId": "dec-006"
+    },
+    {
+      "id": "activity-015",
+      "timestamp": "2024-01-15T11:30:00Z",
+      "type": "signal-detection",
+      "title": "Cold Outreach LTGP:CAC Decline",
+      "description": "Detected 33% decline in Cold Outreach performance over 14 days. LTGP:CAC dropped from 4.2:1 to 2.8:1.",
+      "status": "completed",
+      "relatedDecisionId": "dec-001",
+      "relatedChannelId": "cold-outreach"
+    }
+  ],
+  "channelPerformanceHistory": {
+    "paid-ads": [
+      { "date": "2024-01-01", "ltgpCacRatio": 5.1, "dailySpend": 4200, "leadsGenerated": 89, "qualifiedLeads": 34 },
+      { "date": "2024-01-02", "ltgpCacRatio": 5.3, "dailySpend": 4300, "leadsGenerated": 92, "qualifiedLeads": 37 },
+      { "date": "2024-01-03", "ltgpCacRatio": 5.6, "dailySpend": 4400, "leadsGenerated": 97, "qualifiedLeads": 39 },
+      { "date": "2024-01-04", "ltgpCacRatio": 5.8, "dailySpend": 4500, "leadsGenerated": 103, "qualifiedLeads": 42 },
+      { "date": "2024-01-05", "ltgpCacRatio": 6.1, "dailySpend": 4600, "leadsGenerated": 108, "qualifiedLeads": 45 },
+      { "date": "2024-01-06", "ltgpCacRatio": 6.4, "dailySpend": 4700, "leadsGenerated": 114, "qualifiedLeads": 48 },
+      { "date": "2024-01-07", "ltgpCacRatio": 6.6, "dailySpend": 4800, "leadsGenerated": 119, "qualifiedLeads": 51 },
+      { "date": "2024-01-08", "ltgpCacRatio": 6.8, "dailySpend": 4850, "leadsGenerated": 123, "qualifiedLeads": 53 },
+      { "date": "2024-01-09", "ltgpCacRatio": 6.9, "dailySpend": 4900, "leadsGenerated": 127, "qualifiedLeads": 55 },
+      { "date": "2024-01-10", "ltgpCacRatio": 7.0, "dailySpend": 4950, "leadsGenerated": 131, "qualifiedLeads": 57 },
+      { "date": "2024-01-11", "ltgpCacRatio": 7.1, "dailySpend": 5000, "leadsGenerated": 134, "qualifiedLeads": 59 },
+      { "date": "2024-01-12", "ltgpCacRatio": 7.0, "dailySpend": 5000, "leadsGenerated": 132, "qualifiedLeads": 58 },
+      { "date": "2024-01-13", "ltgpCacRatio": 7.1, "dailySpend": 5000, "leadsGenerated": 135, "qualifiedLeads": 60 },
+      { "date": "2024-01-14", "ltgpCacRatio": 7.2, "dailySpend": 5000, "leadsGenerated": 137, "qualifiedLeads": 61 },
+      { "date": "2024-01-15", "ltgpCacRatio": 7.2, "dailySpend": 5000, "leadsGenerated": 138, "qualifiedLeads": 62 }
+    ],
+    "warm-outreach": [
+      { "date": "2024-01-01", "ltgpCacRatio": 8.2, "dailySpend": 2800, "leadsGenerated": 47, "qualifiedLeads": 34 },
+      { "date": "2024-01-02", "ltgpCacRatio": 8.3, "dailySpend": 2900, "leadsGenerated": 49, "qualifiedLeads": 36 },
+      { "date": "2024-01-03", "ltgpCacRatio": 8.4, "dailySpend": 3000, "leadsGenerated": 51, "qualifiedLeads": 38 },
+      { "date": "2024-01-04", "ltgpCacRatio": 8.5, "dailySpend": 3100, "leadsGenerated": 53, "qualifiedLeads": 40 },
+      { "date": "2024-01-05", "ltgpCacRatio": 8.6, "dailySpend": 3200, "leadsGenerated": 56, "qualifiedLeads": 42 },
+      { "date": "2024-01-06", "ltgpCacRatio": 8.7, "dailySpend": 3300, "leadsGenerated": 58, "qualifiedLeads": 44 },
+      { "date": "2024-01-07", "ltgpCacRatio": 8.8, "dailySpend": 3400, "leadsGenerated": 61, "qualifiedLeads": 46 },
+      { "date": "2024-01-08", "ltgpCacRatio": 8.8, "dailySpend": 3500, "leadsGenerated": 63, "qualifiedLeads": 48 },
+      { "date": "2024-01-09", "ltgpCacRatio": 8.9, "dailySpend": 3600, "leadsGenerated": 65, "qualifiedLeads": 50 },
+      { "date": "2024-01-10", "ltgpCacRatio": 8.9, "dailySpend": 3700, "leadsGenerated": 67, "qualifiedLeads": 52 },
+      { "date": "2024-01-11", "ltgpCacRatio": 8.9, "dailySpend": 3800, "leadsGenerated": 69, "qualifiedLeads": 53 },
+      { "date": "2024-01-12", "ltgpCacRatio": 8.9, "dailySpend": 3900, "leadsGenerated": 71, "qualifiedLeads": 55 },
+      { "date": "2024-01-13", "ltgpCacRatio": 8.9, "dailySpend": 4000, "leadsGenerated": 73, "qualifiedLeads": 56 },
+      { "date": "2024-01-14", "ltgpCacRatio": 8.9, "dailySpend": 4500, "leadsGenerated": 82, "qualifiedLeads": 63 },
+      { "date": "2024-01-15", "ltgpCacRatio": 8.9, "dailySpend": 5000, "leadsGenerated": 91, "qualifiedLeads": 70 }
+    ],
+    "cold-outreach": [
+      { "date": "2024-01-01", "ltgpCacRatio": 4.2, "dailySpend": 7800, "leadsGenerated": 142, "qualifiedLeads": 48 },
+      { "date": "2024-01-02", "ltgpCacRatio": 4.1, "dailySpend": 7850, "leadsGenerated": 139, "qualifiedLeads": 46 },
+      { "date": "2024-01-03", "ltgpCacRatio": 4.0, "dailySpend": 7900, "leadsGenerated": 137, "qualifiedLeads": 45 },
+      { "date": "2024-01-04", "ltgpCacRatio": 3.9, "dailySpend": 7950, "leadsGenerated": 134, "qualifiedLeads": 43 },
+      { "date": "2024-01-05", "ltgpCacRatio": 3.7, "dailySpend": 8000, "leadsGenerated": 128, "qualifiedLeads": 41 },
+      { "date": "2024-01-06", "ltgpCacRatio": 3.6, "dailySpend": 8000, "leadsGenerated": 125, "qualifiedLeads": 39 },
+      { "date": "2024-01-07", "ltgpCacRatio": 3.5, "dailySpend": 8000, "leadsGenerated": 121, "qualifiedLeads": 37 },
+      { "date": "2024-01-08", "ltgpCacRatio": 3.3, "dailySpend": 8000, "leadsGenerated": 114, "qualifiedLeads": 35 },
+      { "date": "2024-01-09", "ltgpCacRatio": 3.2, "dailySpend": 8000, "leadsGenerated": 110, "qualifiedLeads": 33 },
+      { "date": "2024-01-10", "ltgpCacRatio": 3.1, "dailySpend": 8000, "leadsGenerated": 107, "qualifiedLeads": 31 },
+      { "date": "2024-01-11", "ltgpCacRatio": 3.0, "dailySpend": 8000, "leadsGenerated": 103, "qualifiedLeads": 30 },
+      { "date": "2024-01-12", "ltgpCacRatio": 2.9, "dailySpend": 8000, "leadsGenerated": 100, "qualifiedLeads": 28 },
+      { "date": "2024-01-13", "ltgpCacRatio": 2.9, "dailySpend": 8000, "leadsGenerated": 99, "qualifiedLeads": 27 },
+      { "date": "2024-01-14", "ltgpCacRatio": 2.8, "dailySpend": 8000, "leadsGenerated": 96, "qualifiedLeads": 26 },
+      { "date": "2024-01-15", "ltgpCacRatio": 2.8, "dailySpend": 8000, "leadsGenerated": 95, "qualifiedLeads": 25 }
+    ],
+    "content": [
+      { "date": "2024-01-01", "ltgpCacRatio": 5.5, "dailySpend": 3800, "leadsGenerated": 82, "qualifiedLeads": 31 },
+      { "date": "2024-01-02", "ltgpCacRatio": 5.3, "dailySpend": 3850, "leadsGenerated": 79, "qualifiedLeads": 29 },
+      { "date": "2024-01-03", "ltgpCacRatio": 5.1, "dailySpend": 3900, "leadsGenerated": 76, "qualifiedLeads": 28 },
+      { "date": "2024-01-04", "ltgpCacRatio": 4.9, "dailySpend": 3950, "leadsGenerated": 73, "qualifiedLeads": 26 },
+      { "date": "2024-01-05", "ltgpCacRatio": 4.7, "dailySpend": 4000, "leadsGenerated": 69, "qualifiedLeads": 24 },
+      { "date": "2024-01-06", "ltgpCacRatio": 4.5, "dailySpend": 4000, "leadsGenerated": 65, "qualifiedLeads": 22 },
+      { "date": "2024-01-07", "ltgpCacRatio": 4.2, "dailySpend": 4000, "leadsGenerated": 61, "qualifiedLeads": 20 },
+      { "date": "2024-01-08", "ltgpCacRatio": 4.0, "dailySpend": 4000, "leadsGenerated": 57, "qualifiedLeads": 18 },
+      { "date": "2024-01-09", "ltgpCacRatio": 3.8, "dailySpend": 4000, "leadsGenerated": 53, "qualifiedLeads": 17 },
+      { "date": "2024-01-10", "ltgpCacRatio": 3.6, "dailySpend": 4000, "leadsGenerated": 49, "qualifiedLeads": 15 },
+      { "date": "2024-01-11", "ltgpCacRatio": 3.5, "dailySpend": 4000, "leadsGenerated": 47, "qualifiedLeads": 14 },
+      { "date": "2024-01-12", "ltgpCacRatio": 3.4, "dailySpend": 4000, "leadsGenerated": 45, "qualifiedLeads": 13 },
+      { "date": "2024-01-13", "ltgpCacRatio": 3.3, "dailySpend": 4000, "leadsGenerated": 43, "qualifiedLeads": 12 },
+      { "date": "2024-01-14", "ltgpCacRatio": 3.2, "dailySpend": 4000, "leadsGenerated": 41, "qualifiedLeads": 11 },
+      { "date": "2024-01-15", "ltgpCacRatio": 3.2, "dailySpend": 4000, "leadsGenerated": 40, "qualifiedLeads": 10 }
+    ]
+  },
+  "channelExperiments": {
+    "paid-ads": [
+      {
+        "id": "exp-001",
+        "name": "Expanded Audience Targeting Test",
+        "startDate": "2024-01-10",
+        "status": "running",
+        "description": "Testing expansion to adjacent audience segment (+180k users) to address saturation constraint"
+      },
+      {
+        "id": "exp-002",
+        "name": "Creative Refresh A/B Test",
+        "startDate": "2024-01-12",
+        "status": "running",
+        "description": "5 new creative variants with different hooks testing against current best performer"
+      }
+    ],
+    "warm-outreach": [
+      {
+        "id": "exp-003",
+        "name": "Referral Incentive Scaling",
+        "startDate": "2024-01-08",
+        "status": "running",
+        "description": "Testing increased referral rewards to push monthly referral rate above 35%"
+      }
+    ],
+    "cold-outreach": [
+      {
+        "id": "exp-004",
+        "name": "Volume Scaling Test",
+        "startDate": "2024-01-14",
+        "status": "running",
+        "description": "Ramping email volume from 1,100/day to 3,500/day while monitoring deliverability"
+      }
+    ],
+    "content": []
+  },
+  "insightApplications": {
+    "insight-004": [
+      {
+        "id": "app-001",
+        "date": "2024-01-14",
+        "decisionId": "dec-006",
+        "decisionTitle": "Launch 'Quick Start Workshop' Lead Magnet",
+        "outcome": "success",
+        "impactMetric": "32% conversion rate (4% above projection)",
+        "notes": "Positioning aligned perfectly with pain point analysis. Workshop format delivered immediate value."
+      },
+      {
+        "id": "app-002",
+        "date": "2023-12-18",
+        "decisionId": "dec-historical-055",
+        "decisionTitle": "Refresh Landing Page Copy",
+        "outcome": "success",
+        "impactMetric": "Conversion improved from 18% to 27% (+50%)",
+        "notes": "Changed headline from 'Complete Platform' to 'Get Results in 48 Hours'"
+      },
+      {
+        "id": "app-003",
+        "date": "2023-11-22",
+        "decisionId": "dec-historical-048",
+        "decisionTitle": "LinkedIn Ad Campaign Refresh",
+        "outcome": "success",
+        "impactMetric": "CTR increased from 2.1% to 3.8% (+81%)",
+        "notes": "All ad creatives emphasized speed-to-value over comprehensiveness"
+      }
+    ],
+    "insight-001": [
+      {
+        "id": "app-004",
+        "date": "2024-01-15",
+        "decisionId": "dec-004",
+        "decisionTitle": "Increase Warm Outreach Budget by $2k/day",
+        "outcome": "pending",
+        "impactMetric": "Monitoring 7-day impact",
+        "notes": "Scaling budget based on historical referral program success pattern"
+      },
+      {
+        "id": "app-005",
+        "date": "2023-11-14",
+        "decisionId": "dec-historical-038",
+        "decisionTitle": "Scale Referral Budget from $1.5k to $3k/day",
+        "outcome": "success",
+        "impactMetric": "Referral rate increased from 18% to 28% over 60 days",
+        "notes": "Validated that referral customers have 55% higher LTV"
+      }
+    ],
+    "insight-003": [
+      {
+        "id": "app-006",
+        "date": "2024-01-10",
+        "decisionId": "dec-001",
+        "decisionTitle": "Shift Budget to Paid Ads",
+        "outcome": "pending",
+        "impactMetric": "Optimizing ad schedule for peak windows",
+        "notes": "Concentrating 70% of daily spend in Tuesday-Thursday 9-11am window"
+      }
+    ]
+  },
+  "insights": [
+    {
+      "id": "insight-001",
+      "type": "winning-message",
+      "title": "Referral Programs Outperform Cold Acquisition by 55%",
+      "description": "Customers acquired through referrals have 55% higher LTV ($12,400 vs $8,100) and 15% higher quality scores",
+      "sourceChannel": "warm-outreach",
+      "dateDiscovered": "2023-11-14",
+      "applicationCount": 12,
+      "confidenceScore": 0.96
+    },
+    {
+      "id": "insight-002",
+      "type": "failed-experiment",
+      "title": "Content Frequency >2x/day Reduces Engagement 40%",
+      "description": "Tested posting 3x/day vs 1x/day. Higher frequency led to 40% engagement drop and audience unfollows increased 28%",
+      "sourceChannel": "content",
+      "dateDiscovered": "2023-08-22",
+      "applicationCount": 8,
+      "confidenceScore": 0.91
+    },
+    {
+      "id": "insight-003",
+      "type": "channel-performance",
+      "title": "LinkedIn Ads Perform Best on Tuesday-Thursday 9am-11am",
+      "description": "CTR peaks at 4.2% on weekday mornings vs 2.1% evenings/weekends. CPA 34% lower during optimal windows",
+      "sourceChannel": "paid-ads",
+      "dateDiscovered": "2023-10-05",
+      "applicationCount": 24,
+      "confidenceScore": 0.88
+    },
+    {
+      "id": "insight-004",
+      "type": "winning-message",
+      "title": "'Quick Win' Positioning Converts 2.3x Better Than 'Comprehensive Solution'",
+      "description": "Tested two value propositions. 'Get your first result in 48 hours' outperformed 'Complete enterprise solution' by 132% on landing pages",
+      "sourceChannel": "paid-ads",
+      "dateDiscovered": "2024-01-08",
+      "applicationCount": 3,
+      "confidenceScore": 0.84
+    },
+    {
+      "id": "insight-005",
+      "type": "objection-handling",
+      "title": "Integration Concerns Resolved with Video Demo",
+      "description": "When prospects mention integration complexity, sending 3-minute Loom video increases close rate from 12% to 34%",
+      "sourceChannel": "cold-outreach",
+      "dateDiscovered": "2023-09-30",
+      "applicationCount": 47,
+      "confidenceScore": 0.93
+    }
+  ]
+}

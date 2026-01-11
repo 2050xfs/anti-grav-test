@@ -1,0 +1,505 @@
+{
+  "_meta": {
+    "models": {
+      "conversations": "Each conversation represents an inbound interaction from a potential customer across any channel (email, chat, form, social DM, phone). AGRD automatically scores each lead using the PMAU framework (Pain, Money, Authority, Urgency) and routes high-value opportunities to human sales reps.",
+      "contacts": "Contacts are people who have reached out to inquire about your product or service. Each contact has a lifecycle stage and engagement history that helps determine how AGRD should interact with them.",
+      "messages": "Messages are the individual back-and-forth communications within a conversation. They show the full thread of interaction between the contact and your team or AGRD's automated responses.",
+      "templates": "Response templates are pre-written messages that sales reps can use for common scenarios. They speed up response time while maintaining consistency in messaging.",
+      "teamMembers": "Team members are the sales reps who can be assigned to handle qualified conversations. AGRD routes high-value leads to available team members based on workload and specialization.",
+      "analytics": "Analytics track key performance metrics across all conversations, including response times, qualification rates, and conversion rates by channel."
+    },
+    "relationships": [
+      "Each Conversation belongs to a Contact (via contactId)",
+      "Each Conversation contains multiple Messages showing the full thread",
+      "Each Conversation has a PMAU Score that determines routing priority",
+      "Conversations can be assigned to Team Members (via assignedTo field)",
+      "Analytics aggregate data across all Conversations to show performance trends"
+    ]
+  },
+  "conversations": [
+    {
+      "id": "conv-001",
+      "contactId": "contact-001",
+      "channel": "email",
+      "status": "qualified",
+      "subject": "Looking for growth consulting for SaaS company",
+      "preview": "Hi, I'm the CEO of a Series A SaaS company doing $5M ARR. We've hit a growth plateau and need help...",
+      "pmauScore": {
+        "pain": 9,
+        "money": 9,
+        "authority": 10,
+        "urgency": 7,
+        "total": 35,
+        "reasoning": "CEO with clear pain point (growth plateau), significant budget ($5M ARR company), full authority to make decisions, moderate urgency. Strong qualification signal."
+      },
+      "source": "Website contact form - Growth Consulting page",
+      "assignedTo": "Sarah Chen",
+      "lastMessageAt": "2024-01-08T10:30:00Z",
+      "createdAt": "2024-01-07T14:22:00Z",
+      "messageCount": 5,
+      "isUnread": false,
+      "tags": ["high-value", "saas", "enterprise"]
+    },
+    {
+      "id": "conv-002",
+      "contactId": "contact-002",
+      "channel": "chat",
+      "status": "new",
+      "subject": "Chat: Pricing question",
+      "preview": "hey whats the pricing for the basic plan",
+      "pmauScore": {
+        "pain": 3,
+        "money": 2,
+        "authority": 1,
+        "urgency": 2,
+        "total": 8,
+        "reasoning": "Vague inquiry, no clear pain articulated, low-budget language ('basic plan'), likely not decision maker, no urgency. Send to automated nurture."
+      },
+      "source": "Website chat widget",
+      "assignedTo": null,
+      "lastMessageAt": "2024-01-08T15:45:00Z",
+      "createdAt": "2024-01-08T15:45:00Z",
+      "messageCount": 1,
+      "isUnread": true,
+      "tags": ["pricing-inquiry"]
+    },
+    {
+      "id": "conv-003",
+      "contactId": "contact-003",
+      "channel": "social-dm",
+      "status": "in-progress",
+      "subject": "LinkedIn DM: Interested in partnership",
+      "preview": "We're running a marketing agency with 40 clients. Would love to discuss a partnership to offer your...",
+      "pmauScore": {
+        "pain": 7,
+        "money": 7,
+        "authority": 8,
+        "urgency": 5,
+        "total": 27,
+        "reasoning": "Agency owner with clear business model (40 clients), budget implied by agency scale, likely decision maker, moderate urgency. Worth qualifying further."
+      },
+      "source": "LinkedIn Direct Message",
+      "assignedTo": "Marcus Johnson",
+      "lastMessageAt": "2024-01-08T09:15:00Z",
+      "createdAt": "2024-01-06T16:30:00Z",
+      "messageCount": 8,
+      "isUnread": false,
+      "tags": ["partnership", "agency"]
+    },
+    {
+      "id": "conv-004",
+      "contactId": "contact-004",
+      "channel": "email",
+      "status": "nurture",
+      "subject": "Question about your blog post",
+      "preview": "I read your article on CAC optimization and had a question about the methodology you described...",
+      "pmauScore": {
+        "pain": 5,
+        "money": 4,
+        "authority": 3,
+        "urgency": 2,
+        "total": 14,
+        "reasoning": "Content engagement shows interest but no immediate buying signal. Unclear budget and authority. Low urgency. Add to nurture sequence to build relationship."
+      },
+      "source": "Blog post engagement - CAC Optimization",
+      "assignedTo": null,
+      "lastMessageAt": "2024-01-07T11:20:00Z",
+      "createdAt": "2024-01-07T11:20:00Z",
+      "messageCount": 2,
+      "isUnread": false,
+      "tags": ["content-engagement", "education"]
+    },
+    {
+      "id": "conv-005",
+      "contactId": "contact-005",
+      "channel": "form",
+      "status": "qualified",
+      "subject": "Demo request - Enterprise plan",
+      "preview": "We're a $50M healthcare company evaluating growth solutions. Need to book a demo for next week...",
+      "pmauScore": {
+        "pain": 8,
+        "money": 10,
+        "authority": 9,
+        "urgency": 9,
+        "total": 36,
+        "reasoning": "High-value enterprise prospect ($50M company), specific request (demo), clear authority (using 'we'), high urgency (next week). Immediate escalation to sales."
+      },
+      "source": "Enterprise demo request form",
+      "assignedTo": "Sarah Chen",
+      "lastMessageAt": "2024-01-08T14:05:00Z",
+      "createdAt": "2024-01-08T13:50:00Z",
+      "messageCount": 3,
+      "isUnread": false,
+      "tags": ["high-value", "enterprise", "demo-request", "healthcare"]
+    },
+    {
+      "id": "conv-006",
+      "contactId": "contact-006",
+      "channel": "email",
+      "status": "closed-won",
+      "subject": "Following up on our call",
+      "preview": "Thanks for the demo yesterday! We're ready to move forward. Can you send over the contract?",
+      "pmauScore": {
+        "pain": 10,
+        "money": 9,
+        "authority": 10,
+        "urgency": 10,
+        "total": 39,
+        "reasoning": "Post-demo with clear buying intent. Decision made, asking for contract. Maximum urgency and authority. Close imminent."
+      },
+      "source": "Follow-up after demo call",
+      "assignedTo": "Marcus Johnson",
+      "lastMessageAt": "2024-01-08T16:20:00Z",
+      "createdAt": "2024-01-05T09:00:00Z",
+      "messageCount": 15,
+      "isUnread": false,
+      "tags": ["closing", "enterprise", "high-value"]
+    },
+    {
+      "id": "conv-007",
+      "contactId": "contact-007",
+      "channel": "chat",
+      "status": "spam",
+      "subject": "Chat: SEO services offer",
+      "preview": "Hi, I can rank your website #1 on Google guaranteed. Check out my portfolio at...",
+      "pmauScore": {
+        "pain": 0,
+        "money": 0,
+        "authority": 0,
+        "urgency": 0,
+        "total": 0,
+        "reasoning": "Spam/solicitation. Marked for filtering. Not a genuine prospect inquiry."
+      },
+      "source": "Website chat widget",
+      "assignedTo": null,
+      "lastMessageAt": "2024-01-08T12:10:00Z",
+      "createdAt": "2024-01-08T12:10:00Z",
+      "messageCount": 1,
+      "isUnread": false,
+      "tags": ["spam", "solicitation"]
+    },
+    {
+      "id": "conv-008",
+      "contactId": "contact-008",
+      "channel": "email",
+      "status": "in-progress",
+      "subject": "Referred by Jessica Thompson",
+      "preview": "Jessica Thompson recommended I reach out. We're scaling our outbound sales team and need help with...",
+      "pmauScore": {
+        "pain": 8,
+        "money": 8,
+        "authority": 7,
+        "urgency": 6,
+        "total": 29,
+        "reasoning": "Warm referral (trust signal), clear pain point (scaling sales), budget implied, likely decision maker, moderate urgency. High-quality lead."
+      },
+      "source": "Email - Warm referral from Jessica Thompson",
+      "assignedTo": "Sarah Chen",
+      "lastMessageAt": "2024-01-08T08:45:00Z",
+      "createdAt": "2024-01-08T08:30:00Z",
+      "messageCount": 4,
+      "isUnread": true,
+      "tags": ["referral", "warm-lead", "sales"]
+    }
+  ],
+  "contacts": [
+    {
+      "id": "contact-001",
+      "name": "David Martinez",
+      "email": "david@techscale.io",
+      "company": "TechScale",
+      "title": "CEO & Founder",
+      "phone": "+1 (555) 123-4567",
+      "lifecycleStage": "lead",
+      "totalConversations": 1,
+      "firstContactedAt": "2024-01-07T14:22:00Z",
+      "lastActivityAt": "2024-01-08T10:30:00Z"
+    },
+    {
+      "id": "contact-002",
+      "name": "Unknown",
+      "email": "visitor_8372@anonymous.chat",
+      "company": null,
+      "title": null,
+      "phone": null,
+      "lifecycleStage": "lead",
+      "totalConversations": 1,
+      "firstContactedAt": "2024-01-08T15:45:00Z",
+      "lastActivityAt": "2024-01-08T15:45:00Z"
+    },
+    {
+      "id": "contact-003",
+      "name": "Amanda Rivera",
+      "email": "amanda@growthco.agency",
+      "company": "GrowthCo Agency",
+      "title": "Founder & Managing Partner",
+      "phone": "+1 (555) 234-5678",
+      "lifecycleStage": "lead",
+      "totalConversations": 1,
+      "firstContactedAt": "2024-01-06T16:30:00Z",
+      "lastActivityAt": "2024-01-08T09:15:00Z"
+    },
+    {
+      "id": "contact-004",
+      "name": "Chris Park",
+      "email": "c.park@email.com",
+      "company": "Unknown",
+      "title": "Marketing Manager",
+      "phone": null,
+      "lifecycleStage": "lead",
+      "totalConversations": 1,
+      "firstContactedAt": "2024-01-07T11:20:00Z",
+      "lastActivityAt": "2024-01-07T11:20:00Z"
+    },
+    {
+      "id": "contact-005",
+      "name": "Jennifer Walsh",
+      "email": "j.walsh@healthsystems.com",
+      "company": "HealthSystems Inc",
+      "title": "VP of Revenue Operations",
+      "phone": "+1 (555) 345-6789",
+      "lifecycleStage": "lead",
+      "totalConversations": 1,
+      "firstContactedAt": "2024-01-08T13:50:00Z",
+      "lastActivityAt": "2024-01-08T14:05:00Z"
+    },
+    {
+      "id": "contact-006",
+      "name": "Robert Kim",
+      "email": "rkim@financetech.com",
+      "company": "FinanceTech Solutions",
+      "title": "Chief Growth Officer",
+      "phone": "+1 (555) 456-7890",
+      "lifecycleStage": "new-customer",
+      "totalConversations": 1,
+      "firstContactedAt": "2024-01-05T09:00:00Z",
+      "lastActivityAt": "2024-01-08T16:20:00Z"
+    },
+    {
+      "id": "contact-007",
+      "name": "SEO Spammer",
+      "email": "spam@seo-services.xyz",
+      "company": "SEO Services Inc",
+      "title": null,
+      "phone": null,
+      "lifecycleStage": "lead",
+      "totalConversations": 1,
+      "firstContactedAt": "2024-01-08T12:10:00Z",
+      "lastActivityAt": "2024-01-08T12:10:00Z"
+    },
+    {
+      "id": "contact-008",
+      "name": "Michael Chen",
+      "email": "mchen@salesforce-pro.com",
+      "company": "Salesforce Pro",
+      "title": "Director of Sales",
+      "phone": "+1 (555) 567-8901",
+      "lifecycleStage": "lead",
+      "totalConversations": 1,
+      "firstContactedAt": "2024-01-08T08:30:00Z",
+      "lastActivityAt": "2024-01-08T08:45:00Z"
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg-001",
+      "conversationId": "conv-001",
+      "sender": "contact",
+      "senderName": "David Martinez",
+      "content": "Hi, I'm the CEO of a Series A SaaS company doing $5M ARR. We've hit a growth plateau and need help scaling our outbound and content strategies. Are you taking on new clients?",
+      "timestamp": "2024-01-07T14:22:00Z",
+      "isRead": true
+    },
+    {
+      "id": "msg-002",
+      "conversationId": "conv-001",
+      "sender": "ai",
+      "senderName": "AGRD Assistant",
+      "content": "Thanks for reaching out, David! Based on your stage and ARR, you're exactly the type of client we specialize in. I see you've hit a plateau - that's common at the $5M mark when the tactics that got you here stop working. I'd love to understand more about your current setup. Can you tell me: 1) What's your current CAC and LTGP ratio? 2) Which channels are you currently using? I'm routing this to Sarah Chen, one of our growth strategists who specializes in SaaS scale-ups.",
+      "timestamp": "2024-01-07T14:35:00Z",
+      "isRead": true
+    },
+    {
+      "id": "msg-003",
+      "conversationId": "conv-001",
+      "sender": "contact",
+      "senderName": "David Martinez",
+      "content": "Our CAC is around $1,200 and LTGP is about $8,500. We're doing some cold email and a bit of content, but nothing systematic. That's the problem - it's all ad hoc.",
+      "timestamp": "2024-01-07T15:10:00Z",
+      "isRead": true
+    },
+    {
+      "id": "msg-004",
+      "conversationId": "conv-001",
+      "sender": "team",
+      "senderName": "Sarah Chen",
+      "content": "Hi David, Sarah here. Those are solid economics ($8.5K LTGP with $1.2K CAC = 7.1 ratio). The good news is you have room to invest in growth. The plateau you're experiencing is likely because your ad hoc approach can't scale systematically. Let me ask: what does your ideal customer look like, and are you currently targeting them consistently?",
+      "timestamp": "2024-01-07T16:45:00Z",
+      "isRead": true
+    },
+    {
+      "id": "msg-005",
+      "conversationId": "conv-001",
+      "sender": "contact",
+      "senderName": "David Martinez",
+      "content": "Our best customers are B2B SaaS companies between $2-10M ARR. We're targeting them but not consistently. Would love to hop on a call this week to discuss how you could help us systemize this.",
+      "timestamp": "2024-01-08T10:30:00Z",
+      "isRead": true
+    },
+    {
+      "id": "msg-006",
+      "conversationId": "conv-002",
+      "sender": "contact",
+      "senderName": "Anonymous Visitor",
+      "content": "hey whats the pricing for the basic plan",
+      "timestamp": "2024-01-08T15:45:00Z",
+      "isRead": true
+    },
+    {
+      "id": "msg-007",
+      "conversationId": "conv-003",
+      "sender": "contact",
+      "senderName": "Amanda Rivera",
+      "content": "Hi, we're running a marketing agency with 40 clients. Would love to discuss a partnership to offer your growth services as a white-label solution to our client base. Is this something you'd be interested in exploring?",
+      "timestamp": "2024-01-06T16:30:00Z",
+      "isRead": true
+    },
+    {
+      "id": "msg-008",
+      "conversationId": "conv-005",
+      "sender": "contact",
+      "senderName": "Jennifer Walsh",
+      "content": "We're a $50M healthcare company evaluating growth solutions. Need to book a demo for next week to present to our executive team. Can you accommodate a meeting on Tuesday or Wednesday?",
+      "timestamp": "2024-01-08T13:50:00Z",
+      "isRead": true
+    }
+  ],
+  "templates": [
+    {
+      "id": "template-001",
+      "name": "High-Value Lead - Initial Response",
+      "category": "qualification",
+      "content": "Thanks for reaching out! Based on your inquiry, it sounds like you're dealing with [pain point]. I'd love to understand your situation better. Can you share: 1) What's your current [relevant metric]? 2) What's your timeline for solving this? 3) Who else is involved in the decision?",
+      "useCount": 47
+    },
+    {
+      "id": "template-002",
+      "name": "Demo Request Confirmation",
+      "category": "meeting",
+      "content": "Perfect! I'd be happy to walk you through how we can help with [their specific challenge]. I have availability on [day] at [time] or [day] at [time]. Which works better for you? I'll send a calendar invite with a prep questionnaire so we can make the most of our time together.",
+      "useCount": 89
+    },
+    {
+      "id": "template-003",
+      "name": "Low Priority - Nurture Sequence",
+      "category": "nurture",
+      "content": "Thanks for your interest! I'm adding you to our weekly newsletter where we share case studies and growth tactics. In the meantime, here are three resources that might help with [their question]: [Link 1], [Link 2], [Link 3]. Feel free to reach out when you're ready to discuss your specific situation.",
+      "useCount": 156
+    },
+    {
+      "id": "template-004",
+      "name": "Follow-Up After No Response",
+      "category": "follow-up",
+      "content": "Hi [Name], I wanted to follow up on my last message about [topic]. I know inboxes get busy! If this isn't a priority right now, no worries - just let me know and I'll check back in [timeframe]. If it is still relevant, I'd love to [next step].",
+      "useCount": 203
+    }
+  ],
+  "teamMembers": [
+    {
+      "id": "team-001",
+      "name": "Sarah Chen",
+      "email": "sarah@company.com",
+      "role": "Senior Growth Strategist",
+      "avatar": "SC",
+      "status": "available",
+      "specialization": "SaaS & Enterprise",
+      "activeConversations": 8,
+      "avgResponseTime": "45 min"
+    },
+    {
+      "id": "team-002",
+      "name": "Marcus Johnson",
+      "email": "marcus@company.com",
+      "role": "Growth Consultant",
+      "avatar": "MJ",
+      "status": "busy",
+      "specialization": "E-commerce & DTC",
+      "activeConversations": 12,
+      "avgResponseTime": "1.2 hrs"
+    },
+    {
+      "id": "team-003",
+      "name": "Lisa Park",
+      "email": "lisa@company.com",
+      "role": "Sales Development Rep",
+      "avatar": "LP",
+      "status": "available",
+      "specialization": "SMB & Mid-Market",
+      "activeConversations": 6,
+      "avgResponseTime": "30 min"
+    }
+  ],
+  "analytics": {
+    "totalConversations": 287,
+    "activeConversations": 45,
+    "avgResponseTime": "52 minutes",
+    "qualificationRate": 0.34,
+    "conversionRate": 0.18,
+    "byChannel": [
+      {
+        "channel": "email",
+        "count": 142,
+        "qualificationRate": 0.41,
+        "avgResponseTime": "48 min"
+      },
+      {
+        "channel": "chat",
+        "count": 89,
+        "qualificationRate": 0.22,
+        "avgResponseTime": "12 min"
+      },
+      {
+        "channel": "form",
+        "count": 38,
+        "qualificationRate": 0.68,
+        "avgResponseTime": "35 min"
+      },
+      {
+        "channel": "social-dm",
+        "count": 18,
+        "qualificationRate": 0.39,
+        "avgResponseTime": "2.3 hrs"
+      }
+    ],
+    "byStatus": [
+      {
+        "status": "new",
+        "count": 23
+      },
+      {
+        "status": "in-progress",
+        "count": 22
+      },
+      {
+        "status": "qualified",
+        "count": 15
+      },
+      {
+        "status": "nurture",
+        "count": 189
+      },
+      {
+        "status": "closed-won",
+        "count": 32
+      },
+      {
+        "status": "closed-lost",
+        "count": 4
+      },
+      {
+        "status": "spam",
+        "count": 2
+      }
+    ]
+  }
+}

@@ -1,0 +1,290 @@
+================================================================================
+AGRD REPOSITORY ANALYSIS - EXECUTIVE SUMMARY
+================================================================================
+
+ANALYZED REPOSITORIES:
+1. /tmp/2050xfs-repos/AI-Skills-Directory
+2. /tmp/2050xfs-repos/ai-site-builder
+3. /tmp/2050xfs-repos/codex-site-builder
+
+DOCUMENTS CREATED:
+- AGRD_REPOSITORY_ANALYSIS.md (Comprehensive, 500+ lines)
+- AGRD_QUICK_REFERENCE.md (Code snippets and patterns)
+- ANALYSIS_SUMMARY.txt (This file)
+
+================================================================================
+KEY FINDINGS
+================================================================================
+
+REPOSITORY 1: AI-SKILLS-DIRECTORY
+Purpose: Multi-agent governance system for AI capability registry
+Most Relevant For: Strategy Brain (decision-making architecture)
+
+Key Patterns:
+✓ Hierarchical agent organization (7 agent types with distinct roles)
+✓ Event-driven decision logging (audit trail with risk scores)
+✓ Schema-based JSON generation (guaranteed structured output)
+✓ Model selection strategy (Flash for speed, Pro for complexity)
+✓ Fallback chains (AI → Fallback → Manual override)
+✓ Admin dashboard with real-time monitoring
+
+Critical Files:
+- constants.ts (Lines 132-350): Org chart with agent definitions
+- services/geminiService.ts: Intent matching, security audit, content generation
+- types.ts: Data models (Skill, BlogPost, AgentLog, AgentProfile)
+- components/AdminConsole.tsx: Governance dashboard
+
+Reusable Code:
+→ matchSkillsWithIntent() - Intent matching pattern (adapt for market opportunities)
+→ auditCodeSnippet() - Security audit pattern (adapt for offer validation)
+→ Agent role/task/decision model - Use for Strategy Brain agents
+
+REPOSITORY 2: AI-SITE-BUILDER
+Purpose: Autonomous code generation via Claude Code SDK + sandbox orchestration
+Most Relevant For: Offer & Product Cell (generation & execution)
+
+Key Patterns:
+✓ Multi-step orchestration with real-time streaming
+✓ Sandbox lifecycle management (create → setup → execute → cleanup)
+✓ Message tagging & parsing (__CLAUDE_MESSAGE__, __TOOL_USE__)
+✓ Server-Sent Events (SSE) for real-time UI updates
+✓ Claude Code SDK with tool permissions
+✓ Timeout management (5-10 minute generation, 1 minute analysis)
+
+Critical Files:
+- app/api/generate-daytona/route.ts: API route with SSE streaming
+- scripts/generate-in-daytona.ts: Sandbox setup and orchestration
+- lib/claude-code.ts: Claude Code SDK wrapper
+- app/generate/page.tsx: Frontend UI with message collection
+
+Reusable Code:
+→ Daytona sandbox setup pattern (create → install → execute)
+→ Message streaming pattern (spawn → parse → stream → display)
+→ Claude Code query() pattern with specific tool permissions
+→ Real-time message collection with auto-scroll
+
+REPOSITORY 3: CODEX-SITE-BUILDER
+Purpose: Minimal Next.js template for AI-generated applications
+Most Relevant For: Offer & Product Cell (base templates)
+
+Key Pattern:
+✓ Minimal, clean template without bloat
+✓ Pre-configured modern stack (Next.js 15, React 19, Tailwind CSS v4)
+
+Critical Files:
+- package.json: Dependencies
+- src/app/layout.tsx, page.tsx: Clean app router structure
+
+================================================================================
+AGRD APPLICATION MAPPING
+================================================================================
+
+STRATEGY BRAIN (Decision Making)
+←← FROM: AI-Skills-Directory
+
+Architecture:
+- Hierarchical agents with specific roles and decision rights
+- Agents: Market Analysis, Product Strategy, Offer Generation, Validation
+- Each agent has: name, role, purpose, tasks, status, decisions
+
+Implementation:
+1. Define agent profiles (like ARCHITECT, ECONOMIST, SENTINEL)
+2. Log every decision with observation, risk score, action taken
+3. Use Gemini Flash for fast filtering/ranking
+4. Use Gemini Pro for complex strategic analysis
+5. Maintain full audit trail of decisions
+6. Provide dashboard with agent status, activity logs, manual controls
+
+Database Model (from types.ts):
+- AgentProfile: id, name, role, purpose, tasks, status, decisions
+- OfferDecisionLog: timestamp, agentId, eventType, observation, riskScore, 
+  actionTaken, decision (choice, rationale, confidence), severity
+
+OFFER & PRODUCT CELL (Generation)
+←← FROM: ai-site-builder
+
+Architecture:
+- Receives request from Strategy Brain
+- Spawns isolated sandbox (Daytona)
+- Installs Claude Code SDK
+- Executes generation with query() - maxTurns: 20
+- Streams progress back via SSE
+- Returns structured offer artifact
+
+Implementation:
+1. Create Daytona sandbox
+2. Setup project directory with npm init
+3. Install @anthropic-ai/claude-code
+4. Create generation script with query()
+5. Spawn process with env vars (API_KEY)
+6. Parse stdout for __MESSAGE__ tags
+7. Stream messages via SSE to frontend
+8. Clean up sandbox after completion
+
+Tool Permissions:
+- Read: Analyze past offers, market data
+- Write: Create offer documents
+- Edit: Revise based on feedback
+- Bash: Run simulations
+- WebSearch/WebFetch: Current market data
+
+================================================================================
+CRITICAL CODE PATTERNS
+================================================================================
+
+1. INTENT MATCHING (Strategy Brain)
+   Use: Gemini Flash (fast, cost-efficient)
+   Pattern: User query → AI matching → JSON array → Fallback to fuzzy search
+
+2. SCHEMA-BASED GENERATION (Both)
+   Use: Gemini Pro (reliable, structured)
+   Pattern: Define responseSchema → Guaranteed JSON structure → Type-safe parsing
+
+3. SANDBOX ORCHESTRATION (Offer Cell)
+   Use: Daytona SDK
+   Pattern: Create → Setup → Install → Execute → Parse stdout → Stream → Cleanup
+
+4. MESSAGE STREAMING (Both)
+   Use: Server-Sent Events (SSE)
+   Pattern: Tag messages with __MARKER__ → Parse lines → Encode → Write to stream
+
+5. AGENT DECISION LOGGING (Strategy Brain)
+   Use: Event store
+   Pattern: Log every decision with reasoning, risk, action, outcome
+
+================================================================================
+MODEL SELECTION STRATEGY
+================================================================================
+
+Market Filtering:         Gemini Flash  (fast, cheap)
+Strategic Analysis:       Gemini Pro    (slow, expensive, accurate)
+Offer Validation:         Gemini Flash  (fast check)
+Offer Narrative:          Gemini Pro    (quality matters)
+Visual Assets:            Gemini Image  (specialized)
+
+Strategy:
+- Use Flash for fast filtering and ranking
+- Use Pro for decisions that need accuracy
+- Cache results to reduce API calls
+- Use fallbacks when AI fails
+
+================================================================================
+FALLBACK STRATEGY
+================================================================================
+
+For AI Generation:
+1. Try: Gemini Pro with full schema
+2. Fallback: Gemini Flash without schema
+3. Fallback: Use template + manual editing
+4. Fallback: Return error, ask human
+
+For AI Analysis:
+1. Try: Gemini Pro detailed analysis
+2. Fallback: Gemini Flash quick assessment
+3. Fallback: Rule-based validation
+4. Fallback: Mark as "needs human review"
+
+For Streaming:
+1. Try: Real-time SSE
+2. Fallback: Polling every 2 seconds
+3. Fallback: Batch updates
+4. Fallback: Show "processing" message
+
+================================================================================
+IMPLEMENTATION PRIORITIES
+================================================================================
+
+Phase 1 (Foundation):
+✓ Implement Agent profiles with decision logging (from AI-Skills-Directory)
+✓ Create strategy brain dashboard with org chart
+✓ Setup audit trail for all decisions
+
+Phase 2 (Generation):
+✓ Implement sandbox orchestration (from ai-site-builder)
+✓ Setup Claude Code SDK integration
+✓ Create message streaming pipeline
+
+Phase 3 (Integration):
+✓ Connect Strategy Brain to Offer Cell
+✓ Implement fallback chains
+✓ Create admin controls & manual overrides
+
+Phase 4 (Polish):
+✓ Real-time dashboard updates
+✓ Advanced analytics & reporting
+✓ Learning system (outcome tracking)
+
+================================================================================
+FILES FOR REFERENCE
+================================================================================
+
+Complete Analysis:
+→ /Users/eddie.upflex/anti-grav-test/AGRD_REPOSITORY_ANALYSIS.md
+
+Quick Reference (Code Snippets):
+→ /Users/eddie.upflex/anti-grav-test/AGRD_QUICK_REFERENCE.md
+
+Repository Locations:
+→ /tmp/2050xfs-repos/AI-Skills-Directory/
+→ /tmp/2050xfs-repos/ai-site-builder/
+→ /tmp/2050xfs-repos/codex-site-builder/
+
+Key Files to Study:
+→ AI-Skills-Directory/constants.ts (org chart)
+→ AI-Skills-Directory/services/geminiService.ts (AI patterns)
+→ ai-site-builder/app/api/generate-daytona/route.ts (streaming)
+→ ai-site-builder/scripts/generate-in-daytona.ts (sandbox)
+
+================================================================================
+KEY INSIGHTS
+================================================================================
+
+1. Hierarchical Decision-Making Works
+   The AI-Skills-Directory demonstrates effective multi-agent governance with
+   clear authority boundaries and decision rights.
+
+2. Sandbox Isolation is Critical
+   The ai-site-builder shows that isolated execution environments (Daytona)
+   with timeouts prevent runaway processes and ensure safety.
+
+3. Real-Time Streaming Beats Polling
+   SSE messaging provides better UX and reduces latency compared to polling.
+   Key: Use __TAGGED__ messages for structured parsing.
+
+4. Fallbacks Must Be Built In
+   Every single operation needs fallback chains:
+   Primary AI → Alternative AI → Manual Template → Human Intervention
+
+5. Schema-Based Generation Eliminates Parsing Errors
+   Gemini's responseSchema feature guarantees valid JSON without try/catch
+   blocks or custom parsing logic.
+
+6. Multi-Model Strategy is Cost-Effective
+   Using Flash for fast operations and Pro for complex reasoning reduces
+   API costs while maintaining quality.
+
+7. Audit Trails Enable Learning
+   Logging every decision with observation, risk, and outcome enables:
+   - Compliance & accountability
+   - Retrospective analysis
+   - Model improvement
+   - Decision reversal/rollback
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+1. Review AGRD_REPOSITORY_ANALYSIS.md for comprehensive patterns
+2. Review AGRD_QUICK_REFERENCE.md for code snippets
+3. Study these key files in order:
+   - AI-Skills-Directory/constants.ts (understand agent model)
+   - AI-Skills-Directory/services/geminiService.ts (AI patterns)
+   - ai-site-builder/scripts/generate-in-daytona.ts (sandbox pattern)
+   - ai-site-builder/app/api/generate-daytona/route.ts (streaming pattern)
+4. Map patterns to AGRD components:
+   - Strategy Brain ← AI-Skills-Directory
+   - Offer & Product Cell ← ai-site-builder
+   - Base Templates ← codex-site-builder
+5. Start implementing Phase 1 (Agent profiles + decision logging)
+
+================================================================================

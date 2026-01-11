@@ -1,0 +1,609 @@
+{
+  "_meta": {
+    "models": {
+      "contacts": "People in the system tracked through their entire lifecycle journey from lead to customer to potential churn. Each contact has a health score, lifetime value, and engagement history that AGRD uses to optimize long-term relationship value.",
+      "healthScores": "Real-time risk indicators that predict customer churn. Based on engagement patterns, purchase frequency, support interactions, and product usage. Used to trigger proactive retention campaigns.",
+      "upsellOpportunities": "AI-recommended next products or service tiers for each customer. Based on purchase history, usage patterns, and similar customer journeys. Includes probability scores and expected revenue.",
+      "lifecycleTransitions": "Timeline events showing when contacts moved between lifecycle stages (lead → customer → at-risk → churned). Tracks the trigger that caused the transition and the automated action taken.",
+      "reactivationCampaigns": "Automated win-back sequences triggered when contacts become dormant or churn. Includes personalized messaging based on their history and segment-specific offers.",
+      "retentionMetrics": "Cohort analysis tracking how groups of customers behave over time. Shows retention curves, churn rates, and lifetime value trends to identify patterns and optimize lifecycle strategies."
+    },
+    "relationships": [
+      "Each Contact has a lifecycle stage (lead, new-customer, active, at-risk, dormant, churned)",
+      "Each Contact has a Customer Health Score (if they're an active customer)",
+      "Each Contact may have Upsell Opportunities based on their purchase history",
+      "Each Contact has Lifecycle Transitions showing their journey over time",
+      "Dormant/Churned Contacts may be enrolled in Reactivation Campaigns",
+      "Retention Metrics aggregate Contact behavior into cohorts for analysis"
+    ]
+  },
+  "contacts": [
+    {
+      "id": "contact-001",
+      "name": "Sarah Johnson",
+      "email": "sarah@techstartup.io",
+      "company": "TechStartup Inc",
+      "lifecycleStage": "active",
+      "firstPurchaseDate": "2023-03-15",
+      "lastActivityDate": "2024-01-08",
+      "totalPurchases": 3,
+      "lifetimeValue": 8500,
+      "averageOrderValue": 2833,
+      "daysSinceLastPurchase": 45,
+      "engagementScore": 85,
+      "referralsGenerated": 2,
+      "productUsageLevel": "high",
+      "supportTickets": 2,
+      "npsScore": 9
+    },
+    {
+      "id": "contact-002",
+      "name": "Michael Chen",
+      "email": "michael@growthco.com",
+      "company": "GrowthCo",
+      "lifecycleStage": "at-risk",
+      "firstPurchaseDate": "2023-06-20",
+      "lastActivityDate": "2023-11-10",
+      "totalPurchases": 2,
+      "lifetimeValue": 4200,
+      "averageOrderValue": 2100,
+      "daysSinceLastPurchase": 60,
+      "engagementScore": 42,
+      "referralsGenerated": 0,
+      "productUsageLevel": "low",
+      "supportTickets": 5,
+      "npsScore": 6
+    },
+    {
+      "id": "contact-003",
+      "name": "Emily Rodriguez",
+      "email": "emily@marketingpro.com",
+      "company": "MarketingPro",
+      "lifecycleStage": "new-customer",
+      "firstPurchaseDate": "2024-01-02",
+      "lastActivityDate": "2024-01-09",
+      "totalPurchases": 1,
+      "lifetimeValue": 1500,
+      "averageOrderValue": 1500,
+      "daysSinceLastPurchase": 8,
+      "engagementScore": 75,
+      "referralsGenerated": 0,
+      "productUsageLevel": "medium",
+      "supportTickets": 1,
+      "npsScore": 8
+    },
+    {
+      "id": "contact-004",
+      "name": "David Kim",
+      "email": "david@salesforce-solutions.com",
+      "company": "Salesforce Solutions",
+      "lifecycleStage": "dormant",
+      "firstPurchaseDate": "2023-02-10",
+      "lastActivityDate": "2023-08-15",
+      "totalPurchases": 4,
+      "lifetimeValue": 12000,
+      "averageOrderValue": 3000,
+      "daysSinceLastPurchase": 147,
+      "engagementScore": 15,
+      "referralsGenerated": 3,
+      "productUsageLevel": "none",
+      "supportTickets": 0,
+      "npsScore": 7
+    },
+    {
+      "id": "contact-005",
+      "name": "Jessica Martinez",
+      "email": "jessica@ecommercehub.com",
+      "company": "EcommerceHub",
+      "lifecycleStage": "active",
+      "firstPurchaseDate": "2023-01-05",
+      "lastActivityDate": "2024-01-10",
+      "totalPurchases": 8,
+      "lifetimeValue": 24000,
+      "averageOrderValue": 3000,
+      "daysSinceLastPurchase": 0,
+      "engagementScore": 95,
+      "referralsGenerated": 5,
+      "productUsageLevel": "high",
+      "supportTickets": 3,
+      "npsScore": 10
+    },
+    {
+      "id": "contact-006",
+      "name": "Robert Taylor",
+      "email": "robert@consultingfirm.com",
+      "company": "Consulting Firm LLC",
+      "lifecycleStage": "churned",
+      "firstPurchaseDate": "2022-11-20",
+      "lastActivityDate": "2023-04-30",
+      "totalPurchases": 2,
+      "lifetimeValue": 5000,
+      "averageOrderValue": 2500,
+      "daysSinceLastPurchase": 255,
+      "engagementScore": 0,
+      "referralsGenerated": 1,
+      "productUsageLevel": "none",
+      "supportTickets": 8,
+      "npsScore": 3
+    },
+    {
+      "id": "contact-007",
+      "name": "Amanda White",
+      "email": "amanda@digitalagency.com",
+      "company": "Digital Agency",
+      "lifecycleStage": "lead",
+      "firstPurchaseDate": null,
+      "lastActivityDate": "2024-01-09",
+      "totalPurchases": 0,
+      "lifetimeValue": 0,
+      "averageOrderValue": 0,
+      "daysSinceLastPurchase": null,
+      "engagementScore": 60,
+      "referralsGenerated": 0,
+      "productUsageLevel": "trial",
+      "supportTickets": 0,
+      "npsScore": null
+    },
+    {
+      "id": "contact-008",
+      "name": "Christopher Lee",
+      "email": "chris@saascompany.io",
+      "company": "SaaS Company",
+      "lifecycleStage": "active",
+      "firstPurchaseDate": "2023-08-10",
+      "lastActivityDate": "2024-01-07",
+      "totalPurchases": 5,
+      "lifetimeValue": 15000,
+      "averageOrderValue": 3000,
+      "daysSinceLastPurchase": 3,
+      "engagementScore": 88,
+      "referralsGenerated": 4,
+      "productUsageLevel": "high",
+      "supportTickets": 1,
+      "npsScore": 9
+    },
+    {
+      "id": "contact-009",
+      "name": "Lisa Anderson",
+      "email": "lisa@retailbrand.com",
+      "company": "Retail Brand",
+      "lifecycleStage": "at-risk",
+      "firstPurchaseDate": "2023-04-15",
+      "lastActivityDate": "2023-12-05",
+      "totalPurchases": 3,
+      "lifetimeValue": 7500,
+      "averageOrderValue": 2500,
+      "daysSinceLastPurchase": 36,
+      "engagementScore": 38,
+      "referralsGenerated": 1,
+      "productUsageLevel": "low",
+      "supportTickets": 4,
+      "npsScore": 5
+    },
+    {
+      "id": "contact-010",
+      "name": "Daniel Brown",
+      "email": "daniel@financialservices.com",
+      "company": "Financial Services Co",
+      "lifecycleStage": "new-customer",
+      "firstPurchaseDate": "2023-12-20",
+      "lastActivityDate": "2024-01-08",
+      "totalPurchases": 1,
+      "lifetimeValue": 2500,
+      "averageOrderValue": 2500,
+      "daysSinceLastPurchase": 21,
+      "engagementScore": 72,
+      "referralsGenerated": 0,
+      "productUsageLevel": "medium",
+      "supportTickets": 0,
+      "npsScore": 8
+    }
+  ],
+  "healthScores": [
+    {
+      "contactId": "contact-001",
+      "overallScore": 85,
+      "riskLevel": "healthy",
+      "factors": {
+        "engagementTrend": 88,
+        "purchaseFrequency": 82,
+        "productUsage": 90,
+        "supportSatisfaction": 85,
+        "paymentHistory": 100
+      },
+      "predictedChurnProbability": 0.08,
+      "recommendedActions": [
+        "Identify upsell opportunity - high engagement",
+        "Request testimonial/case study"
+      ],
+      "lastCalculated": "2024-01-10T08:00:00Z"
+    },
+    {
+      "contactId": "contact-002",
+      "overallScore": 42,
+      "riskLevel": "at-risk",
+      "factors": {
+        "engagementTrend": 35,
+        "purchaseFrequency": 40,
+        "productUsage": 25,
+        "supportSatisfaction": 50,
+        "paymentHistory": 100
+      },
+      "predictedChurnProbability": 0.65,
+      "recommendedActions": [
+        "Schedule check-in call within 48 hours",
+        "Offer personalized training session",
+        "Apply discount for renewal"
+      ],
+      "lastCalculated": "2024-01-10T08:00:00Z"
+    },
+    {
+      "contactId": "contact-003",
+      "overallScore": 75,
+      "riskLevel": "healthy",
+      "factors": {
+        "engagementTrend": 80,
+        "purchaseFrequency": 70,
+        "productUsage": 75,
+        "supportSatisfaction": 90,
+        "paymentHistory": 100
+      },
+      "predictedChurnProbability": 0.15,
+      "recommendedActions": [
+        "Send onboarding sequence emails",
+        "Invite to customer community"
+      ],
+      "lastCalculated": "2024-01-10T08:00:00Z"
+    },
+    {
+      "contactId": "contact-005",
+      "overallScore": 95,
+      "riskLevel": "healthy",
+      "factors": {
+        "engagementTrend": 98,
+        "purchaseFrequency": 95,
+        "productUsage": 100,
+        "supportSatisfaction": 92,
+        "paymentHistory": 100
+      },
+      "predictedChurnProbability": 0.02,
+      "recommendedActions": [
+        "Invite to advisory board",
+        "Request video testimonial",
+        "Offer referral bonus"
+      ],
+      "lastCalculated": "2024-01-10T08:00:00Z"
+    },
+    {
+      "contactId": "contact-008",
+      "overallScore": 88,
+      "riskLevel": "healthy",
+      "factors": {
+        "engagementTrend": 90,
+        "purchaseFrequency": 88,
+        "productUsage": 92,
+        "supportSatisfaction": 95,
+        "paymentHistory": 100
+      },
+      "predictedChurnProbability": 0.05,
+      "recommendedActions": [
+        "Present enterprise tier upgrade",
+        "Invite to beta program"
+      ],
+      "lastCalculated": "2024-01-10T08:00:00Z"
+    },
+    {
+      "contactId": "contact-009",
+      "overallScore": 38,
+      "riskLevel": "critical",
+      "factors": {
+        "engagementTrend": 30,
+        "purchaseFrequency": 35,
+        "productUsage": 20,
+        "supportSatisfaction": 45,
+        "paymentHistory": 100
+      },
+      "predictedChurnProbability": 0.78,
+      "recommendedActions": [
+        "URGENT: Executive outreach required",
+        "Offer dedicated success manager",
+        "50% discount on next renewal"
+      ],
+      "lastCalculated": "2024-01-10T08:00:00Z"
+    }
+  ],
+  "upsellOpportunities": [
+    {
+      "id": "upsell-001",
+      "contactId": "contact-001",
+      "recommendedProduct": "Enterprise Plan",
+      "currentPlan": "Professional",
+      "expectedRevenue": 5000,
+      "probability": 0.72,
+      "reasoning": "High engagement + team growth indicators + power user features needed",
+      "suggestedApproach": "Highlight team collaboration features and priority support",
+      "estimatedCloseDate": "2024-02-15",
+      "status": "identified"
+    },
+    {
+      "id": "upsell-002",
+      "contactId": "contact-005",
+      "recommendedProduct": "Annual Prepay Discount",
+      "currentPlan": "Monthly Enterprise",
+      "expectedRevenue": 36000,
+      "probability": 0.85,
+      "reasoning": "Perfect payment history + high satisfaction + cost-conscious company",
+      "suggestedApproach": "Offer 20% discount for annual prepayment with locked-in pricing",
+      "estimatedCloseDate": "2024-01-30",
+      "status": "identified"
+    },
+    {
+      "id": "upsell-003",
+      "contactId": "contact-003",
+      "recommendedProduct": "Advanced Analytics Add-on",
+      "currentPlan": "Basic",
+      "expectedRevenue": 500,
+      "probability": 0.65,
+      "reasoning": "Marketing company + frequently views reports + asked about custom dashboards",
+      "suggestedApproach": "Offer 30-day free trial of advanced analytics",
+      "estimatedCloseDate": "2024-02-01",
+      "status": "identified"
+    },
+    {
+      "id": "upsell-004",
+      "contactId": "contact-008",
+      "recommendedProduct": "API Access Package",
+      "currentPlan": "Professional",
+      "expectedRevenue": 2000,
+      "probability": 0.78,
+      "reasoning": "SaaS company + mentioned integration needs + technical team",
+      "suggestedApproach": "Demo API capabilities and show integration examples",
+      "estimatedCloseDate": "2024-01-25",
+      "status": "in-progress"
+    },
+    {
+      "id": "upsell-005",
+      "contactId": "contact-010",
+      "recommendedProduct": "Dedicated Success Manager",
+      "currentPlan": "Basic",
+      "expectedRevenue": 12000,
+      "probability": 0.55,
+      "reasoning": "Financial services (high-touch industry) + large contract value + compliance needs",
+      "suggestedApproach": "Emphasize compliance support and dedicated onboarding",
+      "estimatedCloseDate": "2024-02-28",
+      "status": "identified"
+    }
+  ],
+  "lifecycleTransitions": [
+    {
+      "id": "transition-001",
+      "contactId": "contact-001",
+      "fromStage": "new-customer",
+      "toStage": "active",
+      "transitionDate": "2023-06-15",
+      "trigger": "Second purchase completed",
+      "automatedAction": "Sent retention sequence, added to VIP segment",
+      "daysInPreviousStage": 92
+    },
+    {
+      "id": "transition-002",
+      "contactId": "contact-002",
+      "fromStage": "active",
+      "toStage": "at-risk",
+      "transitionDate": "2023-12-10",
+      "trigger": "Engagement score dropped below 50",
+      "automatedAction": "Triggered re-engagement campaign, assigned to CSM",
+      "daysInPreviousStage": 173
+    },
+    {
+      "id": "transition-003",
+      "contactId": "contact-004",
+      "fromStage": "active",
+      "toStage": "dormant",
+      "transitionDate": "2023-10-15",
+      "trigger": "120 days since last purchase",
+      "automatedAction": "Enrolled in win-back sequence",
+      "daysInPreviousStage": 247
+    },
+    {
+      "id": "transition-004",
+      "contactId": "contact-006",
+      "fromStage": "at-risk",
+      "toStage": "churned",
+      "transitionDate": "2023-07-30",
+      "trigger": "Canceled subscription",
+      "automatedAction": "Exit interview sent, enrolled in long-term nurture",
+      "daysInPreviousStage": 60
+    },
+    {
+      "id": "transition-005",
+      "contactId": "contact-009",
+      "fromStage": "active",
+      "toStage": "at-risk",
+      "transitionDate": "2024-01-05",
+      "trigger": "Support tickets increased + usage declined",
+      "automatedAction": "Urgent: Assigned to senior CSM for intervention",
+      "daysInPreviousStage": 265
+    },
+    {
+      "id": "transition-006",
+      "contactId": "contact-007",
+      "fromStage": null,
+      "toStage": "lead",
+      "transitionDate": "2024-01-03",
+      "trigger": "Trial signup",
+      "automatedAction": "Sent welcome sequence, scheduled onboarding",
+      "daysInPreviousStage": null
+    }
+  ],
+  "reactivationCampaigns": [
+    {
+      "id": "reactivation-001",
+      "name": "90-Day Dormant Win-Back",
+      "status": "active",
+      "targetSegment": "dormant",
+      "triggerCondition": "90 days since last purchase",
+      "enrolledContacts": 34,
+      "completionRate": 0.38,
+      "reactivationRate": 0.15,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "type": "email",
+          "subject": "We miss you! Here's what's new",
+          "delay": "0 days"
+        },
+        {
+          "stepNumber": 2,
+          "type": "wait",
+          "delay": "5 days"
+        },
+        {
+          "stepNumber": 3,
+          "type": "email",
+          "subject": "Exclusive: 30% off your next order",
+          "delay": "0 days"
+        },
+        {
+          "stepNumber": 4,
+          "type": "wait",
+          "delay": "7 days"
+        },
+        {
+          "stepNumber": 5,
+          "type": "email",
+          "subject": "Last chance: Your personalized recommendations",
+          "delay": "0 days"
+        }
+      ]
+    },
+    {
+      "id": "reactivation-002",
+      "name": "Churned Customer Long-Term Nurture",
+      "status": "active",
+      "targetSegment": "churned",
+      "triggerCondition": "Subscription canceled",
+      "enrolledContacts": 12,
+      "completionRate": 0.25,
+      "reactivationRate": 0.08,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "type": "survey",
+          "subject": "Help us improve - exit survey",
+          "delay": "2 days"
+        },
+        {
+          "stepNumber": 2,
+          "type": "wait",
+          "delay": "30 days"
+        },
+        {
+          "stepNumber": 3,
+          "type": "email",
+          "subject": "Product updates you requested",
+          "delay": "0 days"
+        },
+        {
+          "stepNumber": 4,
+          "type": "wait",
+          "delay": "60 days"
+        },
+        {
+          "stepNumber": 5,
+          "type": "email",
+          "subject": "We've built what you asked for",
+          "delay": "0 days"
+        }
+      ]
+    },
+    {
+      "id": "reactivation-003",
+      "name": "At-Risk Intervention",
+      "status": "active",
+      "targetSegment": "at-risk",
+      "triggerCondition": "Health score drops below 45",
+      "enrolledContacts": 8,
+      "completionRate": 0.62,
+      "reactivationRate": 0.45,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "type": "internal-alert",
+          "subject": "Assign to CSM for outreach",
+          "delay": "0 days"
+        },
+        {
+          "stepNumber": 2,
+          "type": "call",
+          "subject": "Check-in call scheduled",
+          "delay": "1 day"
+        },
+        {
+          "stepNumber": 3,
+          "type": "email",
+          "subject": "Personalized success plan",
+          "delay": "3 days"
+        },
+        {
+          "stepNumber": 4,
+          "type": "wait",
+          "delay": "14 days"
+        },
+        {
+          "stepNumber": 5,
+          "type": "email",
+          "subject": "Exclusive retention offer",
+          "delay": "0 days"
+        }
+      ]
+    }
+  ],
+  "retentionMetrics": {
+    "overallChurnRate": 0.12,
+    "monthlyChurnRate": 0.03,
+    "retentionRate": 0.88,
+    "averageCustomerLifespan": 28,
+    "cohorts": [
+      {
+        "cohortName": "Q1 2023",
+        "acquisitionDate": "2023-01-01",
+        "initialSize": 45,
+        "currentSize": 38,
+        "retentionByMonth": [100, 95, 91, 89, 87, 86, 84, 84, 83, 82, 81, 80],
+        "averageCLV": 8200
+      },
+      {
+        "cohortName": "Q2 2023",
+        "acquisitionDate": "2023-04-01",
+        "initialSize": 52,
+        "currentSize": 47,
+        "retentionByMonth": [100, 96, 93, 91, 90, 89, 88, 87, 86],
+        "averageCLV": 7500
+      },
+      {
+        "cohortName": "Q3 2023",
+        "acquisitionDate": "2023-07-01",
+        "initialSize": 38,
+        "currentSize": 36,
+        "retentionByMonth": [100, 97, 95, 94, 93, 92],
+        "averageCLV": 6800
+      },
+      {
+        "cohortName": "Q4 2023",
+        "acquisitionDate": "2023-10-01",
+        "initialSize": 41,
+        "currentSize": 40,
+        "retentionByMonth": [100, 98, 97],
+        "averageCLV": 4200
+      }
+    ],
+    "compoundingIndicators": {
+      "repeatPurchaseRate": 0.68,
+      "referralGenerationRate": 0.32,
+      "averageReferralsPerCustomer": 2.1,
+      "advocacyScore": 8.2,
+      "netPromoterScore": 52
+    }
+  }
+}
