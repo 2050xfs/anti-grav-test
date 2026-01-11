@@ -4,6 +4,7 @@ import session from 'express-session';
 import cors from 'cors';
 import prisma from './utils/prisma';
 import authRoutes from './routes/auth';
+import offersRoutes from './routes/offers';
 import { extractWorkspace } from './middleware/auth';
 
 const app = express();
@@ -46,6 +47,7 @@ app.get('/health', (_req: Request, res: Response) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/offers', offersRoutes);
 
 // 404 handler
 app.use((_req: Request, res: Response) => {
