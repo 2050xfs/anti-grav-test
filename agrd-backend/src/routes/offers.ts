@@ -126,4 +126,38 @@ router.post(
   }
 );
 
+/**
+ * GET /api/offers/:id
+ * Get a single offer by ID
+ */
+router.get(
+  '/:id',
+  requireAuth,
+  loadUser,
+  requireWorkspaceAccess,
+  async (req: Request, res: Response) => {
+    try {
+      const workspaceId = req.workspaceId!;
+      const offerId = req.params.id as string;
+
+      const offer = await prisma.offer.findFirst({
+        where: {
+          id: offerId,
+          workspaceId,
+        },
+      });
+
+      if (!offer) {
+        res.status(404).json({ error: 'Offer not found' });
+        return;
+      }
+
+      res.json(offer);
+    } catch (error) {
+      console.error('Get offer error:', error);
+      res.status(500).json({ error: 'Failed to retrieve offer' });
+    }
+  }
+);
+
 export default router;
