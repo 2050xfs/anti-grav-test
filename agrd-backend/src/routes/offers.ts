@@ -264,6 +264,57 @@ router.patch(
 );
 
 /**
+ * GET /api/offers/:id/performance
+ * Get performance metrics for an offer
+ */
+router.get(
+  '/:id/performance',
+  requireAuth,
+  loadUser,
+  requireWorkspaceAccess,
+  async (req: Request, res: Response) => {
+    try {
+      const workspaceId = req.workspaceId!;
+      const offerId = req.params.id as string;
+
+      const offer = await prisma.offer.findFirst({
+        where: {
+          id: offerId,
+          workspaceId,
+        },
+      });
+
+      if (!offer) {
+        res.status(404).json({ error: 'Offer not found' });
+        return;
+      }
+
+      const campaignStats = await prisma.campaign.aggregate({
+        where: {
+          offerId,
+          workspaceId,
+        },
+        _count: {
+          id: true,
+        },
+        _sum: {
+          revenue: true,
+        },
+      });
+
+      res.json({
+        conversionRate: offer.conversionRate || 0,
+        totalCampaigns: campaignStats._count.id,
+        totalRevenue: campaignStats._sum.revenue || 0,
+      });
+    } catch (error) {
+      console.error('Get offer performance error:', error);
+      res.status(500).json({ error: 'Failed to retrieve offer performance' });
+    }
+  }
+);
+
+/**
  * DELETE /api/offers/:id
  * Delete an offer
  */
