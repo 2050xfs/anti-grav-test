@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import prisma from '../utils/prisma';
 
 // Extend Express Request type to include user and workspace
 declare global {
@@ -32,6 +33,52 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
   }
 
   next();
+};
+
+/**
+ * Middleware to load full user object from session
+ * Must be used after requireAuth
+ */
+export const loadUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.session.userId;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        workspaces: {
+          select: {
+            id: true,
+            workspaceId: true,
+            role: true,
+            workspace: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      return res.status(401).json({ error: 'User not found' });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    console.error('Load user error:', error);
+    return res.status(500).json({ error: 'Failed to load user' });
+  }
 };
 
 /**
